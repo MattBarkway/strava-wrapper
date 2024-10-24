@@ -1,0 +1,12 @@
+[package]
+name = "strava-wrapper"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+reqwest = { version = "0.12.8", features = ["json"] }
+serde = { version = "1.0.213", features = ["derive"] }
+tokio = {version = "1.41.0", features = ["macros"]}
+serde_json = "1.0.132"
