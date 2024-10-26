@@ -1,8 +1,8 @@
-use crate::activities::User;
+use crate::models::User;
 use crate::query;
 use crate::query::ErrorWrapper;
 
-enum Format {
+pub enum Format {
     GPX,
     TCX,
 }

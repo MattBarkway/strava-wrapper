@@ -1,4 +1,4 @@
-use crate::activities::Activity;
+use crate::models::Activity;
 use crate::query;
 use crate::query::ErrorWrapper;
 use serde::{Deserialize, Serialize};
