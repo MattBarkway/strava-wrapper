@@ -1,9 +1,9 @@
-use std::error::Error;
-use std::fmt::Debug;
 use async_trait::async_trait;
 use reqwest::{Client, StatusCode};
 use serde::de::DeserializeOwned;
 use serde::{Deserialize, Serialize};
+use std::error::Error;
+use std::fmt::Debug;
 pub const TOKEN: &str = "";
 pub const API_URL: &str = "https://www.strava.com/api/v3/";
 
@@ -91,7 +91,10 @@ pub trait Sendable<T, U>: EndPoint {
 }
 
 pub trait Query: Sized + Clone {
-    fn format_to_query_params(url: &str, params: Vec<(String, String)>) -> Result<String, Box<dyn Error>> {
+    fn format_to_query_params(
+        url: &str,
+        params: Vec<(String, String)>,
+    ) -> Result<String, Box<dyn Error>> {
         Ok(Url::parse_with_params(url, params.iter())?.to_string())
     }
 
@@ -113,13 +116,16 @@ pub trait PathQuery: Sized {
 
 pub trait Page: Query {
     fn page(self, number: u32) -> Self {
-        self.clone().query().push(("page".to_string(), number.to_string()));
+        self.clone()
+            .query()
+            .push(("page".to_string(), number.to_string()));
         self
     }
 }
 pub trait PerPage: Query {
     fn per_page(self, number: u32) -> Self {
-        self.clone().query()
+        self.clone()
+            .query()
             .push(("per_page".to_string(), number.to_string()));
         self
     }
@@ -127,7 +133,8 @@ pub trait PerPage: Query {
 
 pub trait PageSize: Query {
     fn page_size(mut self, number: u32) -> Self {
-        self.clone().query()
+        self.clone()
+            .query()
             .push(("page_size".to_string(), number.to_string()));
         self
     }
@@ -135,34 +142,42 @@ pub trait PageSize: Query {
 
 pub trait ID: PathQuery {
     fn id(mut self, id: u64) -> Self {
-        self.path_params().push(("after_cursor".to_string(), id.to_string()));
+        self.path_params()
+            .push(("after_cursor".to_string(), id.to_string()));
         self
     }
 }
 
 pub trait AfterCursor: Query {
     fn after_cursor(mut self, cursor: String) -> Self {
-        self.clone().query().push(("after_cursor".to_string(), cursor));
+        self.clone()
+            .query()
+            .push(("after_cursor".to_string(), cursor));
         self
     }
 }
 
 pub trait IncludeAllEfforts: Query {
     fn include_all_efforts(mut self, should_include: bool) -> Self {
-        self.clone().query().push(("include_all_efforts".to_string(), should_include.to_string()));
+        self.clone().query().push((
+            "include_all_efforts".to_string(),
+            should_include.to_string(),
+        ));
         self
     }
 }
 
 pub trait TimeFilter: Query {
     fn before(mut self, timestamp: i64) -> Self {
-        self.clone().query()
+        self.clone()
+            .query()
             .push(("before".to_string(), timestamp.to_string()));
         self
     }
 
     fn after(mut self, timestamp: i64) -> Self {
-        self.clone().query()
+        self.clone()
+            .query()
             .push(("after".to_string(), timestamp.to_string()));
         self
     }
@@ -180,12 +195,12 @@ where
 
 pub async fn get_with_query_and_path<T, U>(inst: T, token: &str) -> Result<U, ErrorWrapper>
 where
-T: Query + PathQuery + EndPoint,
-U: DeserializeOwned + Debug,
+    T: Query + PathQuery + EndPoint,
+    U: DeserializeOwned + Debug,
 {
     let formatted_path = T::format_from_tuples(&inst.path(), inst.path_params());
     let url = T::format_to_query_params(&format!("{}/{}", API_URL, formatted_path), inst.query())
-    .expect("Failed to format query params");
+        .expect("Failed to format query params");
     get(&url, token).await
 }
 

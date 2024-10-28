@@ -1,14 +1,24 @@
-use std::fmt::Debug;
-use async_trait::async_trait;
-use strava_macros::{EndPoint, PathQuery, Query};
 use crate::models::{Activity, Comment, CreateActivity, User};
 use crate::query;
-use crate::query::{get_with_query, get_with_query_and_path, AfterCursor, EndPoint, ErrorWrapper, IncludeAllEfforts, Page, PageSize, PathQuery, PerPage, Query, Sendable, TimeFilter, ID};
+use crate::query::{
+    get_with_query, get_with_query_and_path, AfterCursor, EndPoint, ErrorWrapper,
+    IncludeAllEfforts, Page, PageSize, PathQuery, PerPage, Query, Sendable, TimeFilter, ID,
+};
+use async_trait::async_trait;
+use std::fmt::Debug;
+use strava_macros::{EndPoint, PathQuery, Query};
 
 #[derive(Debug, Clone, Query, EndPoint)]
 pub struct ActivityFilter {
-    pub path: String,
-    pub query: Vec<(String, String)>,
+    token: String,
+    path: String,
+    query: Vec<(String, String)>,
+}
+
+impl ActivityFilter {
+    pub fn new(token: String, path: String) -> Self {
+        Self {token, path, query: Vec::new()}
+    }
 }
 
 #[async_trait]
@@ -22,12 +32,18 @@ impl TimeFilter for ActivityFilter {}
 impl Page for ActivityFilter {}
 impl PerPage for ActivityFilter {}
 
-
 #[derive(Debug, Clone, Query, PathQuery, EndPoint)]
 pub struct GetActivity {
-    pub path: String,
-    pub query: Vec<(String, String)>,
-    pub path_params: Vec<(String, String)>,
+    token: String,
+    path: String,
+    query: Vec<(String, String)>,
+    path_params: Vec<(String, String)>,
+}
+
+impl GetActivity {
+    pub fn new(token: String, path: String) -> Self {
+        Self {token, path, query: Vec::new(), path_params: Vec::new()}
+    }
 }
 
 impl ID for GetActivity {}
@@ -43,9 +59,15 @@ impl Sendable<GetActivity, Activity> for GetActivity {
 
 #[derive(Debug, Clone, Query, PathQuery, EndPoint)]
 pub struct CommentFilter {
-    pub path: String,
-    pub query: Vec<(String, String)>,
-    pub path_params: Vec<(String, String)>,
+    token: String,
+    path: String,
+    query: Vec<(String, String)>,
+    path_params: Vec<(String, String)>,
+}
+impl CommentFilter {
+    pub fn new(token: String, path: String) -> Self {
+        Self { token, path, query: Vec::new(), path_params: Vec::new() }
+    }
 }
 
 #[async_trait]
@@ -63,9 +85,20 @@ impl AfterCursor for CommentFilter {}
 
 #[derive(Debug, Clone, Query, PathQuery, EndPoint)]
 pub struct KudosFilter {
-    pub path: String,
-    pub query: Vec<(String, String)>,
-    pub path_params: Vec<(String, String)>,
+    token: String,
+    path: String,
+    query: Vec<(String, String)>,
+    path_params: Vec<(String, String)>,
+}
+impl KudosFilter {
+    pub fn new(token: String, path: String) -> Self {
+        Self {
+            token,
+            path,
+            query: Vec::new(),
+            path_params: Vec::new(),
+        }
+    }
 }
 
 #[async_trait]
@@ -78,11 +111,17 @@ impl ID for KudosFilter {}
 impl Page for KudosFilter {}
 impl PerPage for KudosFilter {}
 
-
 #[derive(Debug, EndPoint)]
 pub struct CreateActivityFilter {
-    pub path: String,
-    pub payload: CreateActivity,
+    token: String,
+    path: String,
+    payload: CreateActivity,
+}
+
+impl CreateActivityFilter {
+    pub fn new(token: String, path: String, payload: CreateActivity) -> Self {
+        Self {token, path, payload}
+    }
 }
 
 #[async_trait]

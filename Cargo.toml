@@ -12,4 +12,4 @@ tokio = {version = "1.41.0", features = ["macros"]}
 serde_json = "1.0.132"
 url = "2.5.2"
 async-trait = "0.1.83"
-strava-macros = { path = "../strava-macros" }
+strava-macros = { path = "strava-macros" }
