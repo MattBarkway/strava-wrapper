@@ -36,7 +36,7 @@ strava-api-wrapper = "0.1.0"
 ```rust
 use strava_api::StravaAPI;
 
-let api = StravaAPI::new("https://www.strava.com/api/v3", "YOUR_ACCESS_TOKEN");
+let api = StravaAPI::new("https://www.strava.com/api", "YOUR_ACCESS_TOKEN");
 
 // Get an activity by ID
 let activity = api
