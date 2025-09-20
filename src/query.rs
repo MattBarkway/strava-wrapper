@@ -1,13 +1,11 @@
 use async_trait::async_trait;
-use reqwest::{Client, StatusCode};
+use reqwest::{Client, StatusCode, Url};
 use serde::de::DeserializeOwned;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::error::Error;
 use std::fmt::Debug;
 pub const API_URL: &str = "https://www.strava.com/api/v3";
-
-use url::Url;
 
 pub async fn get<T>(path: &str, token: &str) -> Result<T, ErrorWrapper>
 where
@@ -137,7 +135,7 @@ pub trait TimeFilter {
     fn after(self, timestamp: i64) -> Self;
 }
 
-pub async fn get_with_query<T, U>(mut inst: T, token: &str) -> Result<U, ErrorWrapper>
+pub async fn get_with_query<T, U>(inst: T, token: &str) -> Result<U, ErrorWrapper>
 where
     T: Endpoint + Query + PathQuery + Sendable<T, U>,
     U: DeserializeOwned + Debug,
@@ -156,7 +154,7 @@ fn format_path(template: &str, params: &HashMap<String, String>) -> String {
     path
 }
 
-pub async fn get_with_query_and_path<T, U>(mut inst: T, token: &str) -> Result<U, ErrorWrapper>
+pub async fn get_with_query_and_path<T, U>(inst: T, token: &str) -> Result<U, ErrorWrapper>
 where
     T: Query + PathQuery + Endpoint,
     U: DeserializeOwned + Debug,

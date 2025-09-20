@@ -1,6 +1,6 @@
-use crate::models::{Comment, User};
+use crate::models::{User};
 use crate::query::{
-    get_with_query_and_path, AfterCursor, Endpoint, ErrorWrapper, Page, PageSize, PathQuery, Query,
+    get_with_query_and_path, Endpoint, ErrorWrapper, Page, PageSize, PathQuery, Query,
     Sendable, ID,
 };
 use async_trait::async_trait;

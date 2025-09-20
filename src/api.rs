@@ -1,4 +1,4 @@
-use crate::endpoints::{ActivitiesEndpoint, CommentsEndpoint};
+use crate::endpoints::{ActivitiesEndpoint};
 
 #[derive(Clone)]
 pub struct StravaAPI {

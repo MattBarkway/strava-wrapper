@@ -1,4 +1,3 @@
-use reqwest::StatusCode;
 use serde::{Deserialize, Serialize};
 
 const AUTH_URL: &str = "https://www.strava.com/oauth/token";
