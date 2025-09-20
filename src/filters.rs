@@ -23,8 +23,8 @@ impl ActivityFilter {
 
 #[async_trait]
 impl Sendable<ActivityFilter, Vec<Activity>> for ActivityFilter {
-    async fn send(mut self, token: &str) -> Result<Vec<Activity>, ErrorWrapper> {
-        get_with_query(self.clone(), token).await
+    async fn send(mut self) -> Result<Vec<Activity>, ErrorWrapper> {
+        get_with_query(self.clone(), &self.token).await
     }
 }
 
@@ -52,8 +52,8 @@ impl IncludeAllEfforts for GetActivity {}
 
 #[async_trait]
 impl Sendable<GetActivity, Activity> for GetActivity {
-    async fn send(mut self, token: &str) -> Result<Activity, ErrorWrapper> {
-        get_with_query_and_path(self.clone(), token).await
+    async fn send(mut self) -> Result<Activity, ErrorWrapper> {
+        get_with_query_and_path(self.clone(), &self.token).await
     }
 }
 
@@ -72,8 +72,8 @@ impl CommentFilter {
 
 #[async_trait]
 impl Sendable<CommentFilter, Vec<Comment>> for CommentFilter {
-    async fn send(mut self, token: &str) -> Result<Vec<Comment>, ErrorWrapper> {
-        get_with_query(self.clone(), token).await
+    async fn send(mut self) -> Result<Vec<Comment>, ErrorWrapper> {
+        get_with_query(self.clone(), &self.token).await
     }
 }
 
@@ -103,8 +103,8 @@ impl KudosFilter {
 
 #[async_trait]
 impl Sendable<KudosFilter, Vec<User>> for KudosFilter {
-    async fn send(mut self, token: &str) -> Result<Vec<User>, ErrorWrapper> {
-        get_with_query_and_path(self.clone(), token).await
+    async fn send(mut self) -> Result<Vec<User>, ErrorWrapper> {
+        get_with_query_and_path(self.clone(), &self.token).await
     }
 }
 impl ID for KudosFilter {}
@@ -126,7 +126,7 @@ impl CreateActivityFilter {
 
 #[async_trait]
 impl Sendable<CreateActivityFilter, Activity> for CreateActivityFilter {
-    async fn send(self, token: &str) -> Result<Activity, ErrorWrapper> {
-        query::post(&self.path(), token, self.payload).await
+    async fn send(self) -> Result<Activity, ErrorWrapper> {
+        query::post(&self.path(), &self.token, self.payload).await
     }
 }
