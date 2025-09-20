@@ -1,8 +1,22 @@
-# Strava API Rust Wrapper
+# Strava API Wrapper
 
-An asynchronous Rust wrapper for the [Strava API](https://developers.strava.com/).
+An asynchronous wrapper for the [Strava API](https://developers.strava.com/), written in Rust.
 
-This library provides a builder-style interface for accessing Strava endpoints like activities, comments, and kudos, with automatic JSON deserialization.
+This library provides a builder-style interface for accessing Strava API endpoints.
+
+Currently supported:
+- Activities
+- Comments
+- Kudos
+
+Coming soon:
+- ~~Athletes~~
+- ~~Clubs~~
+- ~~Gear~~
+- ~~Routes~~
+- ~~Segments~~
+- ~~SegmentEfforts~~
+- ~~Uploads~~
 
 ---
 
@@ -13,7 +27,6 @@ Add this to your `Cargo.toml`:
 ```toml
 [dependencies]
 strava-api-wrapper = "0.1.0"
-...
 ```
 
 ---
@@ -23,9 +36,9 @@ strava-api-wrapper = "0.1.0"
 ```rust
 use strava_api::StravaAPI;
 
-let token = "YOUR_ACCESS_TOKEN";
-let api = StravaAPI::new("https://www.strava.com/api/v3", token);
+let api = StravaAPI::new("https://www.strava.com/api/v3", "YOUR_ACCESS_TOKEN");
 
+// Get an activity by ID
 let activity = api
     .activities()
     .get()
@@ -34,7 +47,7 @@ let activity = api
     .await?;
 ```
 ```rust
-// Get comments for activity 123
+// Get comments for activity by ID
 let comments = api.activities()
     .comments()
     .get()
@@ -44,17 +57,6 @@ let comments = api.activities()
     .send()
     .await?;
 ```
----
-
-## Supported Endpoints
-
-| Endpoint          | Chain Syntax                               | Returns                  |
-| ----------------- |--------------------------------------------| ------------------------ |
-| Get Activity      | `api.activities().id(123).send()`          | `Activity`               |
-| Activity Comments | `api.activities().get().comments().send()` | `Vec<Comment>`           |
-| Activity Kudos    | `api.activities().id(123).kudos().send()`  | `Vec<User>`              |
-| Create Activity   | `api.create_activity(payload).send()`      | `Activity`               |
-
 ---
 
 ## Testing
