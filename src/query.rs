@@ -1,11 +1,11 @@
-use std::error::Error;
-use std::fmt::Debug;
 use async_trait::async_trait;
 use reqwest::{Client, StatusCode};
 use serde::de::DeserializeOwned;
 use serde::{Deserialize, Serialize};
-pub const TOKEN: &str = "";
-pub const API_URL: &str = "https://www.strava.com/api/v3/";
+use std::collections::HashMap;
+use std::error::Error;
+use std::fmt::Debug;
+pub const API_URL: &str = "https://www.strava.com/api/v3";
 
 use url::Url;
 
@@ -16,7 +16,7 @@ where
     let client = Client::new();
 
     let response = client
-        .get(format!("{}/{}", API_URL, path))
+        .get(path)
         .header("Authorization", format!("Bearer {}", token))
         .send()
         .await
@@ -30,7 +30,7 @@ where
 pub async fn post<T, B>(path: &str, token: &str, body: B) -> Result<T, ErrorWrapper>
 where
     T: DeserializeOwned + Debug,
-    B: Serialize + Debug, // Ensure the body can be serialized to JSON
+    B: Serialize + Debug,
 {
     let client = Client::new();
 
@@ -47,7 +47,6 @@ where
     handle_response::<T>(response).await
 }
 
-// This helper function handles the common response logic
 async fn handle_response<T>(response: reqwest::Response) -> Result<T, ErrorWrapper>
 where
     T: DeserializeOwned + Debug,
@@ -86,106 +85,85 @@ pub trait EndPoint {
 }
 
 #[async_trait]
-pub trait Sendable<T, U>: EndPoint {
-    async fn send(self, token: &str) -> Result<U, ErrorWrapper>;
+pub trait Sendable<T, U> {
+    async fn send(self) -> Result<U, ErrorWrapper>;
 }
 
 pub trait Query: Sized + Clone {
-    fn format_to_query_params(url: &str, params: Vec<(String, String)>) -> Result<String, Box<dyn Error>> {
+    fn format_to_query_params(
+        url: &str,
+        params: Vec<(String, String)>,
+    ) -> Result<String, Box<dyn Error>> {
         Ok(Url::parse_with_params(url, params.iter())?.to_string())
     }
 
-    fn query(self) -> Vec<(String, String)>;
+    fn get_query_params(self) -> Vec<(String, String)>;
 }
 
-pub trait PathQuery: Sized {
-    fn format_from_tuples(template: &str, values: Vec<(String, String)>) -> String {
-        let mut result = template.to_string();
-        for (key, value) in values {
-            let placeholder = format!("{{{}}}", key);
-            result = result.replace(&placeholder, &value);
-        }
-        result
-    }
-
-    fn path_params(&self) -> Vec<(String, String)>;
+pub trait Endpoint: Sized + Clone {
+    fn endpoint(&self) -> String;
 }
 
-pub trait Page: Query {
-    fn page(self, number: u32) -> Self {
-        self.clone().query().push(("page".to_string(), number.to_string()));
-        self
-    }
-}
-pub trait PerPage: Query {
-    fn per_page(self, number: u32) -> Self {
-        self.clone().query()
-            .push(("per_page".to_string(), number.to_string()));
-        self
-    }
+pub trait PathQuery: Endpoint {
+    fn get_path_params(&self) -> HashMap<String, String>;
 }
 
-pub trait PageSize: Query {
-    fn page_size(mut self, number: u32) -> Self {
-        self.clone().query()
-            .push(("page_size".to_string(), number.to_string()));
-        self
-    }
+pub trait Page {
+    fn page(self, number: u32) -> Self;
+}
+pub trait PerPage {
+    fn per_page(self, number: u32) -> Self;
 }
 
-pub trait ID: PathQuery {
-    fn id(mut self, id: u64) -> Self {
-        self.path_params().push(("after_cursor".to_string(), id.to_string()));
-        self
-    }
+pub trait PageSize {
+    fn page_size(self, number: u32) -> Self;
 }
 
-pub trait AfterCursor: Query {
-    fn after_cursor(mut self, cursor: String) -> Self {
-        self.clone().query().push(("after_cursor".to_string(), cursor));
-        self
-    }
+pub trait ID {
+    fn id(self, id: u64) -> Self;
 }
 
-pub trait IncludeAllEfforts: Query {
-    fn include_all_efforts(mut self, should_include: bool) -> Self {
-        self.clone().query().push(("include_all_efforts".to_string(), should_include.to_string()));
-        self
-    }
+pub trait AfterCursor {
+    fn after_cursor(self, cursor: String) -> Self;
 }
 
-pub trait TimeFilter: Query {
-    fn before(mut self, timestamp: i64) -> Self {
-        self.clone().query()
-            .push(("before".to_string(), timestamp.to_string()));
-        self
-    }
-
-    fn after(mut self, timestamp: i64) -> Self {
-        self.clone().query()
-            .push(("after".to_string(), timestamp.to_string()));
-        self
-    }
+pub trait IncludeAllEfforts {
+    fn include_all_efforts(self, should_include: bool) -> Self;
 }
 
-pub async fn get_with_query<T, U>(inst: T, token: &str) -> Result<U, ErrorWrapper>
+pub trait TimeFilter {
+    fn before(self, timestamp: i64) -> Self;
+
+    fn after(self, timestamp: i64) -> Self;
+}
+
+pub async fn get_with_query<T, U>(mut inst: T, token: &str) -> Result<U, ErrorWrapper>
 where
-    T: Query + Sendable<T, U>,
+    T: Endpoint + Query + PathQuery + Sendable<T, U>,
     U: DeserializeOwned + Debug,
 {
-    let url = T::format_to_query_params(&format!("{}/{}", API_URL, inst.path()), inst.query())
+    let url = T::format_to_query_params(&inst.endpoint(), inst.get_query_params())
         .expect("Failed to format query params");
     get(&url, token).await
 }
 
-pub async fn get_with_query_and_path<T, U>(inst: T, token: &str) -> Result<U, ErrorWrapper>
+fn format_path(template: &str, params: &HashMap<String, String>) -> String {
+    let mut path = template.to_string();
+    for (key, value) in params {
+        let placeholder = format!("{{{}}}", key);
+        path = path.replace(&placeholder, value);
+    }
+    path
+}
+
+pub async fn get_with_query_and_path<T, U>(mut inst: T, token: &str) -> Result<U, ErrorWrapper>
 where
-T: Query + PathQuery + EndPoint,
-U: DeserializeOwned + Debug,
+    T: Query + PathQuery + Endpoint,
+    U: DeserializeOwned + Debug,
 {
-    let formatted_path = T::format_from_tuples(&inst.path(), inst.path_params());
-    let url = T::format_to_query_params(&format!("{}/{}", API_URL, formatted_path), inst.query())
-    .expect("Failed to format query params");
+    let url_with_path_params = &format_path(&inst.endpoint(), &inst.get_path_params());
+    let url = T::format_to_query_params(&url_with_path_params, inst.get_query_params())
+        .expect("Failed to format query params");
     get(&url, token).await
 }
 

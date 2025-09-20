@@ -121,7 +121,7 @@ pub struct Map {
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct SegmentEffort {}
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, PartialEq)]
 pub struct Comment {
     id: i64,
     activity_id: i64,
@@ -131,11 +131,14 @@ pub struct Comment {
     mentions_metadata: Option<String>,
     created_at: String,
     athlete: User,
-    cursor: String,
+    cursor: Option<String>,
+    reaction_count: i32,
+    has_reacted: bool,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, PartialEq)]
 pub struct User {
     firstname: String,
     lastname: String,
+    resource_state: Option<i32>,
 }

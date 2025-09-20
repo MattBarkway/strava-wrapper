@@ -10,6 +10,7 @@ fn derive_impl(
     field_name: &str,
     return_type: &syn::Type,
     self_type: TokenStream2,
+    as_mut: bool,
 ) -> TokenStream {
     let input = TokenStream2::from(input);
     let DeriveInput { ident, data, .. } = syn::parse2(input).expect("F");
@@ -34,13 +35,22 @@ fn derive_impl(
         .to_owned()
         .expect("Expected a struct with the correct field name");
 
-    let expanded = quote! {
+    let expanded;
+    if as_mut {
+        expanded = quote! {
+        impl #trait_name for #ident {
+            fn #method_name(&mut self) -> &mut #return_type {
+                &mut self.#field_ident
+            }
+        }};
+    } else {
+        expanded = quote! {
         impl #trait_name for #ident {
             fn #method_name(#self_type) -> #return_type {
                 self.clone().#field_ident.clone()
             }
-        }
-    };
+        }};
+    }
 
     TokenStream::from(expanded)
 }
@@ -61,7 +71,7 @@ pub fn query_derive(input: TokenStream) -> TokenStream {
     let method_name = syn::Ident::new("query", proc_macro2::Span::call_site());
     let return_type = syn::parse_str::<syn::Type>("Vec<(String, String)>").unwrap();
 
-    derive_impl(input, &trait_name, &method_name, "query", &return_type, quote! { mut self })
+    derive_impl(input, &trait_name, &method_name, "query", &return_type, quote! { mut self }, true)
 }
 
 #[proc_macro_derive(PathQuery)]
@@ -78,6 +88,7 @@ pub fn path_query_derive(input: TokenStream) -> TokenStream {
         "path_params",
         &return_type,
         quote! { &self },
+        true,
     )
 }
 
@@ -87,5 +98,5 @@ pub fn endpoint_derive(input: TokenStream) -> TokenStream {
     let method_name = syn::Ident::new("path", proc_macro2::Span::call_site());
     let return_type = syn::parse_str::<syn::Type>("String").unwrap();
 
-    derive_impl(input, &trait_name, &method_name, "path", &return_type, quote! { &self })
+    derive_impl(input, &trait_name, &method_name, "path", &return_type, quote! { &self }, false)
 }
