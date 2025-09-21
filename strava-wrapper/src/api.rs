@@ -1,4 +1,4 @@
-use crate::endpoints::{ActivitiesEndpoint};
+use crate::endpoints::{ActivitiesEndpoint, AthletesEndpoint, ClubsEndpoint, GearEndpoint, RoutesEndpoint, SegmentsEndpoint};
 
 #[derive(Clone)]
 pub struct StravaAPI {
@@ -15,53 +15,26 @@ impl StravaAPI {
     }
 
     pub fn activities(&self) -> ActivitiesEndpoint {
-        // create
-        // get X
-        // update
-        // list comments: X
-        // list kudos:
-        // list laps:
-        // list zones:
-        //
-        ActivitiesEndpoint::new(self.url.clone(), self.token.clone())
+        ActivitiesEndpoint::new(&self.url, &self.token)
     }
 
-    pub fn athletes(&self) -> () {
-        // get (current athlete)
-        // zones
-        // stats
-        // update
-        todo!();
+    pub fn athletes(&self) -> AthletesEndpoint {
+        AthletesEndpoint::new(&self.url, &self.token)
     }
 
-    pub fn clubs(&self) -> () {
-        // activities
-        // admins
-        // get
-        // list members
-        // list athlete's clubs
-        todo!();
+    pub fn clubs(&self) -> ClubsEndpoint {
+        ClubsEndpoint::new(&self.url, &self.token)
     }
 
-    pub fn gear(&self) -> () {
-        // get
-        todo!();
+    pub fn gear(&self) -> GearEndpoint {
+        GearEndpoint::new(&self.url, &self.token)
     }
 
-    pub fn routes(&self) -> () {
-        // export GPX
-        // export TCX
-        // get
-        // list athlete's routes
-        todo!();
+    pub fn routes(&self) -> RoutesEndpoint {
+        RoutesEndpoint::new(&self.url, &self.token)
     }
 
-    pub fn segments(&self) -> () {
-        // explore
-        // list starred
-        // get
-        // star
-        todo!();
-        // goes to SegmentEfforts
+    pub fn segments(&self) -> SegmentsEndpoint {
+        SegmentsEndpoint::new(&self.url, &self.token)
     }
 }

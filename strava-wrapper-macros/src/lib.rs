@@ -95,7 +95,7 @@ pub fn derive_page_size(input: TokenStream) -> TokenStream {
     let expanded = quote! {
         impl PageSize for #name {
             fn page_size(mut self, size: u32) -> Self {
-                self.query.push(("per_page".to_string(), size.to_string()));
+                self.query.push(("page_size".to_string(), size.to_string()));
                 self
             }
         }
