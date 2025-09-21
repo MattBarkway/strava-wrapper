@@ -1,7 +1,13 @@
-name: Publish Rust Crate
+name: Publish strava-wrapper Crate
 
 on:
   workflow_dispatch:
+    inputs:
+      publish_macros:
+        type: boolean
+        description: "Also publish the macros crate?"
+        required: false
+        default: false
 
 jobs:
   build-and-publish:
@@ -34,7 +40,13 @@ jobs:
       - name: Check Package
         run: cargo package --allow-dirty --no-verify
 
-      - name: Publish to crates.io
+      - name: Publish strava-wrapper-macros
+        if: ${{ inputs.publish_macros }}
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CRATES_TOKEN }}
-        run: cargo publish
+        run: cargo publish -p strava-wrapper-macros
+
+      - name: Publish strava-wrapper
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CRATES_TOKEN }}
+        run: cargo publish -p strava-wrapper

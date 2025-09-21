@@ -1,16 +1,2 @@
-[package]
-name = "strava-wrapper"
-description = "[WIP] A Rust wrapper for the Strava API"
-version = "0.0.1"
-edition = "2021"
-authors = ["Matt Barkway <contact@mattbarkway.dev>"]
-license = "MIT"
-repository = "https://github.com/MattBarkway/strava-wrapper"
-
-[dependencies]
-reqwest = { version = "0.12.8", features = ["json"] }
-serde = { version = "1.0.213", features = ["derive"] }
-tokio = {version = "1.41.0", features = ["macros"]}
-serde_json = "1.0.132"
-async-trait = "0.1.83"
-httpmock = "0.8.0-alpha.1"
+[workspace]
+members = ["strava-wrapper", "strava-wrapper-macros", "integration-tests"]
