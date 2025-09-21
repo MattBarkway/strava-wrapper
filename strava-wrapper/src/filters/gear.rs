@@ -29,7 +29,7 @@ impl GetGear {
 }
 
 #[async_trait]
-impl Sendable<GetGear, User> for GetGear {
+impl Sendable<GetGear, SimpleAthlete> for GetGear {
     async fn send(mut self) -> Result<SimpleAthlete, ErrorWrapper> {
         get_with_query_and_path(self.clone(), &self.token).await
     }

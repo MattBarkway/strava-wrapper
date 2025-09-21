@@ -1,13 +1,13 @@
 use crate::models::{User};
 use crate::query::{
-    get_with_query_and_path, Endpoint, ErrorWrapper, Page, PageSize, PathQuery, Query,
+    get_with_query_and_path, Endpoint, ErrorWrapper, Page, PathQuery, Query, PerPage,
     Sendable, ID,
 };
 use async_trait::async_trait;
 use std::collections::HashMap;
-use strava_wrapper_macros::{Endpoint, Page, PageSize, PathQuery, Query, ID};
+use strava_wrapper_macros::{Endpoint, Page, PerPage, PathQuery, Query, ID};
 
-#[derive(Debug, Clone, Endpoint, Query, PathQuery, ID, Page, PageSize)]
+#[derive(Debug, Clone, Endpoint, Query, PathQuery, ID, Page, PerPage)]
 pub struct ListActivityKudoers {
     url: String,
     token: String,

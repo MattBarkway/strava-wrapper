@@ -1,13 +1,13 @@
 use crate::models::{Lap, Zones};
 use crate::query::{
-    get_with_query_and_path, Endpoint, ErrorWrapper, PathQuery, Query,
+    get_with_query_and_path, Endpoint, ErrorWrapper, PathQuery, Query,Page, PerPage,
     Sendable, ID,
 };
 use async_trait::async_trait;
 use std::collections::HashMap;
-use strava_wrapper_macros::{Endpoint, PathQuery, Query, ID};
+use strava_wrapper_macros::{Endpoint, Page, PathQuery, PerPage, Query, ID};
 
-#[derive(Debug, Clone, Endpoint, Query, PathQuery, ID)]
+#[derive(Debug, Clone, Endpoint, Query, PathQuery, ID, Page, PerPage)]
 pub struct ListClubActivities {
     url: String,
     token: String,
@@ -36,7 +36,7 @@ impl Sendable<ListClubActivities, Vec<Lap>> for ListClubActivities {
 }
 
 
-#[derive(Debug, Clone, Endpoint, Query, PathQuery, ID)]
+#[derive(Debug, Clone, Endpoint, Query, PathQuery, ID, Page, PerPage)]
 pub struct ListClubAdmins {
     url: String,
     token: String,
@@ -93,7 +93,7 @@ impl Sendable<GetClub, Vec<Lap>> for GetClub {
 }
 
 
-#[derive(Debug, Clone, Endpoint, Query, PathQuery, ID)]
+#[derive(Debug, Clone, Endpoint, Query, PathQuery, ID, Page, PerPage)]
 pub struct GetClubMembers {
     url: String,
     token: String,

@@ -7,7 +7,7 @@ use async_trait::async_trait;
 use std::collections::HashMap;
 use strava_wrapper_macros::{Endpoint, PathQuery, Query, ID};
 
-#[derive(Debug, Clone, Endpoint, Query, PathQuery, ID)]
+#[derive(Debug, Clone, Endpoint, Query, PathQuery)]
 pub struct GetAthlete {
     url: String,
     token: String,
@@ -31,6 +31,7 @@ impl GetAthlete {
 #[async_trait]
 impl Sendable<GetAthlete, SimpleAthlete> for GetAthlete {
     async fn send(mut self) -> Result<SimpleAthlete, ErrorWrapper> {
+        // TODO test GET with no query+path params
         get_with_query_and_path(self.clone(), &self.token).await
     }
 }

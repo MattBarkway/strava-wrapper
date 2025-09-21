@@ -71,7 +71,6 @@ impl ActivitiesEndpoint {
         GetActivity::new(&self.url, &self.token, "v3/activities/{id}")
     }
 
-    // TODO go through and validate args/URLs from here onwards
 
     pub fn comments(&self) -> ListActivityComments {
         ListActivityComments::new(&self.url, &self.token, "v3/activities/{id}/comments")
@@ -115,11 +114,12 @@ impl AthletesEndpoint {
     }
 
     pub fn zones(&self) -> GetAthleteZones {
-        GetAthleteZones::new(&self.url, &self.token, "v3/activities/{id}/comments")
+        GetAthleteZones::new(&self.url, &self.token, "v3/athlete/zones")
     }
 
     pub fn stats(&self) -> GetAthleteStats {
-        GetAthleteStats::new(&self.url, &self.token, "v3/activities/{id}/kudos")
+        // TODO should athletes be different resource to athlete? probs
+        GetAthleteStats::new(&self.url, &self.token, "v3/athletes/{id}/stats")
     }
     pub fn update(&self) -> () {
         todo!()
@@ -139,22 +139,23 @@ impl ClubsEndpoint {
         }
     }
     pub fn activities(&self) -> ListClubActivities {
-        ListClubActivities::new(&self.url, &self.token, "v3/athlete")
+        ListClubActivities::new(&self.url, &self.token, "v3/clubs/{id}/activities")
     }
 
-    pub fn zones(&self) -> ListClubAdmins {
-        ListClubAdmins::new(&self.url, &self.token, "v3/activities/{id}/comments")
+    pub fn admins(&self) -> ListClubAdmins {
+        ListClubAdmins::new(&self.url, &self.token, "v3/clubs/{id}/admins")
     }
 
     pub fn get(&self) -> GetClub {
-        GetClub::new(&self.url, &self.token, "v3/activities/{id}/kudos")
+        GetClub::new(&self.url, &self.token, "v3/clubs/{id}")
     }
     pub fn members(&self) -> GetClubMembers {
-        GetClubMembers::new(&self.url, &self.token, "v3/activities/{id}/kudos")
+        GetClubMembers::new(&self.url, &self.token, "v3/clubs/{id}/members")
     }
 
     pub fn list(&self) -> ListAthleteClubs {
-        ListAthleteClubs::new(&self.url, &self.token, "v3/activities/{id}/kudos")
+        // TODO this should be on /athlete resource
+        ListAthleteClubs::new(&self.url, &self.token, "v3/athlete/clubs")
 
     }
 }
@@ -173,7 +174,7 @@ impl GearEndpoint {
         }
     }
     pub fn get(&self) -> GetGear {
-        GetGear::new(&self.url, &self.token, "v3/athlete")
+        GetGear::new(&self.url, &self.token, "v3/gear/{id}")
     }
 }
 
@@ -194,9 +195,10 @@ impl RoutesEndpoint {
     }
 
     pub fn get(&self) -> GetRoute {
-        GetRoute::new(&self.url, &self.token, "v3/athlete")
+        GetRoute::new(&self.url, &self.token, "v3/routes/{id}")
     }
 
+    // TODO go through and validate args/URLs from here onwards
     pub fn list(&self) -> ListAthleteRoutes {
         ListAthleteRoutes::new(&self.url, &self.token, "v3/athlete")
     }
@@ -215,11 +217,11 @@ impl ExportRoute {
         }
     }
     pub fn tcx(&self) -> ExportTCXRoute {
-        ExportTCXRoute::new(&self.url, &self.token, "v3/athlete")
+        ExportTCXRoute::new(&self.url, &self.token, "v3/routes/{id}/export_gpx")
     }
 
     pub fn gpx(&self) -> ExportGPXRoute {
-        ExportGPXRoute::new(&self.url, &self.token, "v3/athlete")
+        ExportGPXRoute::new(&self.url, &self.token, "v3/routes/{id}/export_tcx")
     }
 }
 

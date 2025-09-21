@@ -87,6 +87,23 @@ pub fn derive_page(input: TokenStream) -> TokenStream {
     expanded.into()
 }
 
+#[proc_macro_derive(PerPage)]
+pub fn derive_per_page(input: TokenStream) -> TokenStream {
+    let input = parse_macro_input!(input as DeriveInput);
+    let name = input.ident;
+
+    let expanded = quote! {
+        impl PerPage for #name {
+            fn per_page(mut self, size: u32) -> Self {
+                self.query.push(("per_page".to_string(), size.to_string()));
+                self
+            }
+        }
+    };
+
+    expanded.into()
+}
+
 #[proc_macro_derive(PageSize)]
 pub fn derive_page_size(input: TokenStream) -> TokenStream {
     let input = parse_macro_input!(input as DeriveInput);

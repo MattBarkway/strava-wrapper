@@ -7,7 +7,7 @@ use async_trait::async_trait;
 use std::collections::HashMap;
 use strava_wrapper_macros::{Endpoint, PathQuery, Query, ID};
 
-#[derive(Debug, Clone, Endpoint, Query, PathQuery, ID)]
+#[derive(Debug, Clone, Endpoint, Query, PathQuery)]
 pub struct GetAthleteZones {
     url: String,
     token: String,
