@@ -4,8 +4,9 @@ use crate::query::{
 };
 use async_trait::async_trait;
 use std::collections::HashMap;
+use strava_wrapper_macros::{Endpoint, PathQuery, Query, ID};
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Endpoint, Query, PathQuery, ID)]
 pub struct ActivityFilter {
     url: String,
     token: String,
@@ -30,31 +31,6 @@ impl ActivityFilter {
 impl Sendable<ActivityFilter, Activity> for ActivityFilter {
     async fn send(mut self) -> Result<Activity, ErrorWrapper> {
         get_with_query_and_path(self.clone(), &self.token).await
-    }
-}
-
-impl Query for ActivityFilter {
-    fn get_query_params(self) -> Vec<(String, String)> {
-        self.query
-    }
-}
-
-impl PathQuery for ActivityFilter {
-    fn get_path_params(&self) -> HashMap<String, String> {
-        self.path_params.iter().cloned().collect()
-    }
-}
-
-impl ID for ActivityFilter {
-    fn id(mut self, id: u64) -> Self {
-        self.path_params.push(("id".to_string(), id.to_string()));
-        self
-    }
-}
-
-impl Endpoint for ActivityFilter {
-    fn endpoint(&self) -> String {
-        format!("{}/{}", self.url, self.path)
     }
 }
 
