@@ -1,4 +1,4 @@
-name: Publish strava-wrapper Crate
+name: Publish Crate
 
 on:
   workflow_dispatch:
