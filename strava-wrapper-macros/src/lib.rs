@@ -149,7 +149,6 @@ pub fn derive_after_cursor(input: TokenStream) -> TokenStream {
     expanded.into()
 }
 
-
 #[proc_macro_derive(IncludeAllEfforts)]
 pub fn derive_include_all_efforts(input: TokenStream) -> TokenStream {
     let input = parse_macro_input!(input as DeriveInput);

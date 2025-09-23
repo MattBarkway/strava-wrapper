@@ -5,7 +5,7 @@ use crate::filters::kudos::ListActivityKudoers;
 use crate::filters::laps::ListActivityLaps;
 use crate::filters::activity_zones::ListActivityZones;
 use crate::filters::athlete_zones::GetAthleteZones;
-use crate::filters::clubs::{GetClub, GetClubMembers, ListAthleteClubs, ListClubActivities, ListClubAdmins};
+use crate::filters::clubs::{GetClub, GetClubMembers, ListClubActivities, ListClubAdmins};
 use crate::filters::gear::GetGear;
 use crate::filters::routes::{ExportGPXRoute, ExportTCXRoute, GetRoute, ListAthleteRoutes};
 use crate::filters::segment_efforts::{GetSegmentEffort, ListSegmentEfforts};
@@ -138,10 +138,12 @@ impl AthletesEndpoint {
         }
     }
 
-
     pub fn stats(&self) -> GetAthleteStats {
-        // TODO should athletes be different resource to athlete? probs
         GetAthleteStats::new(&self.url, &self.token, "v3/athletes/{id}/stats")
+    }
+
+    pub fn routes(&self) -> ListAthleteRoutes {
+        ListAthleteRoutes::new(&self.url, &self.token, "v3/athletes/{id}/routes")
     }
 }
 
@@ -168,6 +170,7 @@ impl ClubsEndpoint {
     pub fn get(&self) -> GetClub {
         GetClub::new(&self.url, &self.token, "v3/clubs/{id}")
     }
+
     pub fn members(&self) -> GetClubMembers {
         GetClubMembers::new(&self.url, &self.token, "v3/clubs/{id}/members")
     }
@@ -185,6 +188,8 @@ impl GearEndpoint {
             url: url.into(),
             token: token.into(),
         }
+        // TODO should add path params and query params to init, so we can just call .gear().id(123).send()
+        //  same for .athlete() etc., update trait to make path_params + query optional
     }
     pub fn get(&self) -> GetGear {
         GetGear::new(&self.url, &self.token, "v3/gear/{id}")
@@ -209,11 +214,6 @@ impl RoutesEndpoint {
 
     pub fn get(&self) -> GetRoute {
         GetRoute::new(&self.url, &self.token, "v3/routes/{id}")
-    }
-
-    // TODO go through and validate args/URLs from here onwards
-    pub fn list(&self) -> ListAthleteRoutes {
-        ListAthleteRoutes::new(&self.url, &self.token, "v3/athlete")
     }
 }
 
@@ -256,19 +256,20 @@ impl SegmentsEndpoint {
     }
 
     pub fn explore(&self) -> ExploreSegments {
-        ExploreSegments::new(&self.url, &self.token, "v3/athlete")
+        ExploreSegments::new(&self.url, &self.token, "v3/segments/explore")
     }
 
-
     pub fn starred(&self) -> ListStarredSegments {
-        ListStarredSegments::new(&self.url, &self.token, "v3/athlete")
+        ListStarredSegments::new(&self.url, &self.token, "v3/segments/starred")
     }
 
     pub fn get(&self) -> GetSegment {
-        GetSegment::new(&self.url, &self.token, "v3/athlete")
+        GetSegment::new(&self.url, &self.token, "v3/segments/{id}")
     }
 
-    pub fn star() -> () {todo!()}
+    pub fn star() -> () {todo!()
+    // segments/{id}/starred
+        }
 }
 
 
@@ -285,10 +286,10 @@ impl SegmentEffort {
     }
 
     pub fn get(&self) -> GetSegmentEffort {
-        GetSegmentEffort::new(&self.url, &self.token, "v3/athlete")
+        GetSegmentEffort::new(&self.url, &self.token, "v3/segment_efforts")
     }
 
     pub fn list(&self) -> ListSegmentEfforts {
-        ListSegmentEfforts::new(&self.url, &self.token, "v3/athlete")
+        ListSegmentEfforts::new(&self.url, &self.token, "v3/segment_efforts/{id}")
     }
 }

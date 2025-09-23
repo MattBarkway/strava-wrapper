@@ -1,4 +1,4 @@
-use crate::models::{Lap, Zones};
+use crate::models::{Lap};
 use crate::query::{
     get_with_query_and_path, Endpoint, ErrorWrapper, PathQuery, Query,Page, PerPage,
     Sendable, ID,

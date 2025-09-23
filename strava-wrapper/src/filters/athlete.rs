@@ -1,4 +1,4 @@
-use crate::models::{Lap, SimpleAthlete, Zones};
+use crate::models::{Lap, SimpleAthlete};
 use crate::query::{
     get_with_query_and_path, Endpoint, ErrorWrapper, PathQuery, Query,
     Sendable, ID,
@@ -6,6 +6,8 @@ use crate::query::{
 use async_trait::async_trait;
 use std::collections::HashMap;
 use strava_wrapper_macros::{Endpoint, PathQuery, Query, ID};
+
+// TODO: "Tokens with profile:read_all scope will receive a detailed athlete representation; all others will receive a summary representation."
 
 #[derive(Debug, Clone, Endpoint, Query, PathQuery)]
 pub struct GetAthlete {

@@ -1,4 +1,4 @@
-use crate::models::{Lap, SimpleAthlete, Zones};
+use crate::models::{SimpleAthlete};
 use crate::query::{
     get_with_query_and_path, Endpoint, ErrorWrapper, PathQuery, Query,
     Sendable, ID,

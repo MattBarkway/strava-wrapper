@@ -1,11 +1,11 @@
 use crate::models::{Zones};
 use crate::query::{
     get_with_query_and_path, Endpoint, ErrorWrapper, PathQuery, Query,
-    Sendable, ID,
+    Sendable
 };
 use async_trait::async_trait;
 use std::collections::HashMap;
-use strava_wrapper_macros::{Endpoint, PathQuery, Query, ID};
+use strava_wrapper_macros::{Endpoint, PathQuery, Query};
 
 #[derive(Debug, Clone, Endpoint, Query, PathQuery)]
 pub struct GetAthleteZones {

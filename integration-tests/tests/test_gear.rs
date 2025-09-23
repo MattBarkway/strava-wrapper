@@ -26,6 +26,8 @@ mod test {
             .gear()
             // TODO should add path params and query params to init, so we can just call .gear().id(123).send()
             //  same for .athlete() etc., update trait to make path_params + query optional
+            // or rename .get() method to .id() and pass in int, then return Self.id(123) instead of Self
+            .get()
             .id(123)
             .send()
             .await
