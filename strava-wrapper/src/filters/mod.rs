@@ -3,7 +3,7 @@ pub mod comments;
 pub mod kudos;
 pub mod laps;
 pub mod activity_zones;
-pub mod athletes;
+pub mod athlete;
 pub mod clubs;
 pub mod gear;
 pub mod routes;

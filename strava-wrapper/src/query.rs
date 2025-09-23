@@ -99,6 +99,10 @@ pub trait Query: Sized + Clone {
 }
 
 pub trait Endpoint: Sized + Clone {
+    fn new(url: impl Into<String>, token: impl Into<String>, path: impl Into<String>) -> Self
+    where
+    Self: Sized;
+
     fn endpoint(&self) -> String;
 }
 

@@ -16,18 +16,6 @@ pub struct GetAthleteZones {
     path_params: Vec<(String, String)>,
 }
 
-impl GetAthleteZones {
-    pub fn new(url: impl Into<String>, token: impl Into<String>, path: impl Into<String>) -> Self {
-        Self {
-            url: url.into(),
-            token: token.into(),
-            path: path.into(),
-            query: Vec::new(),
-            path_params: Vec::new(),
-        }
-    }
-}
-
 #[async_trait]
 impl Sendable<GetAthleteZones, Vec<Zones>> for GetAthleteZones {
     async fn send(mut self) -> Result<Vec<Zones>, ErrorWrapper> {

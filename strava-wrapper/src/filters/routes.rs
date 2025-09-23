@@ -16,18 +16,6 @@ pub struct GetRoute {
     path_params: Vec<(String, String)>,
 }
 
-impl GetRoute {
-    pub fn new(url: impl Into<String>, token: impl Into<String>, path: impl Into<String>) -> Self {
-        Self {
-            url: url.into(),
-            token: token.into(),
-            path: path.into(),
-            query: Vec::new(),
-            path_params: Vec::new(),
-        }
-    }
-}
-
 #[async_trait]
 impl Sendable<GetRoute, Vec<User>> for GetRoute {
     async fn send(mut self) -> Result<Vec<User>, ErrorWrapper> {
@@ -42,18 +30,6 @@ pub struct ListAthleteRoutes {
     path: String,
     query: Vec<(String, String)>,
     path_params: Vec<(String, String)>,
-}
-
-impl ListAthleteRoutes {
-    pub fn new(url: impl Into<String>, token: impl Into<String>, path: impl Into<String>) -> Self {
-        Self {
-            url: url.into(),
-            token: token.into(),
-            path: path.into(),
-            query: Vec::new(),
-            path_params: Vec::new(),
-        }
-    }
 }
 
 #[async_trait]
@@ -73,18 +49,6 @@ pub struct ExportTCXRoute {
     path_params: Vec<(String, String)>,
 }
 
-impl ExportTCXRoute {
-    pub fn new(url: impl Into<String>, token: impl Into<String>, path: impl Into<String>) -> Self {
-        Self {
-            url: url.into(),
-            token: token.into(),
-            path: path.into(),
-            query: Vec::new(),
-            path_params: Vec::new(),
-        }
-    }
-}
-
 #[async_trait]
 impl Sendable<ExportTCXRoute, Vec<User>> for ExportTCXRoute {
     async fn send(mut self) -> Result<Vec<User>, ErrorWrapper> {
@@ -99,18 +63,6 @@ pub struct ExportGPXRoute {
     path: String,
     query: Vec<(String, String)>,
     path_params: Vec<(String, String)>,
-}
-
-impl ExportGPXRoute {
-    pub fn new(url: impl Into<String>, token: impl Into<String>, path: impl Into<String>) -> Self {
-        Self {
-            url: url.into(),
-            token: token.into(),
-            path: path.into(),
-            query: Vec::new(),
-            path_params: Vec::new(),
-        }
-    }
 }
 
 #[async_trait]

@@ -16,18 +16,6 @@ pub struct ListActivityLaps {
     path_params: Vec<(String, String)>,
 }
 
-impl ListActivityLaps {
-    pub fn new(url: impl Into<String>, token: impl Into<String>, path: impl Into<String>) -> Self {
-        Self {
-            url: url.into(),
-            token: token.into(),
-            path: path.into(),
-            query: Vec::new(),
-            path_params: Vec::new(),
-        }
-    }
-}
-
 #[async_trait]
 impl Sendable<ListActivityLaps, Vec<Lap>> for ListActivityLaps {
     async fn send(mut self) -> Result<Vec<Lap>, ErrorWrapper> {

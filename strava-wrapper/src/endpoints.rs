@@ -1,5 +1,5 @@
 use crate::filters::activities::GetActivity;
-use crate::filters::athletes::GetAthlete;
+use crate::filters::athlete::{GetAthlete, ListAthleteClubs};
 use crate::filters::comments::ListActivityComments;
 use crate::filters::kudos::ListActivityKudoers;
 use crate::filters::laps::ListActivityLaps;
@@ -11,6 +11,7 @@ use crate::filters::routes::{ExportGPXRoute, ExportTCXRoute, GetRoute, ListAthle
 use crate::filters::segment_efforts::{GetSegmentEffort, ListSegmentEfforts};
 use crate::filters::segments::{ExploreSegments, GetSegment, ListStarredSegments};
 use crate::filters::stats::GetAthleteStats;
+use crate::query::Endpoint;
 // TODO: implement all these...
 
 // API
@@ -96,13 +97,12 @@ impl ActivitiesEndpoint {
         todo!()
     }
 }
-
-pub struct AthletesEndpoint {
+pub struct AthleteEndpoint {
     url: String,
     token: String,
 }
 
-impl AthletesEndpoint {
+impl AthleteEndpoint {
     pub fn new(url: impl Into<String>, token: impl Into<String>) -> Self {
         Self {
             url: url.into(),
@@ -117,12 +117,31 @@ impl AthletesEndpoint {
         GetAthleteZones::new(&self.url, &self.token, "v3/athlete/zones")
     }
 
-    pub fn stats(&self) -> GetAthleteStats {
-        // TODO should athletes be different resource to athlete? probs
-        GetAthleteStats::new(&self.url, &self.token, "v3/athletes/{id}/stats")
+    pub fn clubs(&self) -> ListAthleteClubs {
+        ListAthleteClubs::new(&self.url, &self.token, "v3/athlete/clubs")
     }
     pub fn update(&self) -> () {
         todo!()
+    }
+    
+}
+pub struct AthletesEndpoint {
+    url: String,
+    token: String,
+}
+
+impl AthletesEndpoint {
+    pub fn new(url: impl Into<String>, token: impl Into<String>) -> Self {
+        Self {
+            url: url.into(),
+            token: token.into(),
+        }
+    }
+
+
+    pub fn stats(&self) -> GetAthleteStats {
+        // TODO should athletes be different resource to athlete? probs
+        GetAthleteStats::new(&self.url, &self.token, "v3/athletes/{id}/stats")
     }
 }
 
@@ -151,12 +170,6 @@ impl ClubsEndpoint {
     }
     pub fn members(&self) -> GetClubMembers {
         GetClubMembers::new(&self.url, &self.token, "v3/clubs/{id}/members")
-    }
-
-    pub fn list(&self) -> ListAthleteClubs {
-        // TODO this should be on /athlete resource
-        ListAthleteClubs::new(&self.url, &self.token, "v3/athlete/clubs")
-
     }
 }
 

@@ -34,7 +34,6 @@ mod test {
         let result = api
             .activities()
             .comments()
-            .get()
             .id(123)
             .send()
             .await

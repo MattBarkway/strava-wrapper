@@ -15,19 +15,6 @@ pub struct ListClubActivities {
     query: Vec<(String, String)>,
     path_params: Vec<(String, String)>,
 }
-
-impl ListClubActivities {
-    pub fn new(url: impl Into<String>, token: impl Into<String>, path: impl Into<String>) -> Self {
-        Self {
-            url: url.into(),
-            token: token.into(),
-            path: path.into(),
-            query: Vec::new(),
-            path_params: Vec::new(),
-        }
-    }
-}
-
 #[async_trait]
 impl Sendable<ListClubActivities, Vec<Lap>> for ListClubActivities {
     async fn send(mut self) -> Result<Vec<Lap>, ErrorWrapper> {
@@ -45,18 +32,6 @@ pub struct ListClubAdmins {
     path_params: Vec<(String, String)>,
 }
 
-impl ListClubAdmins {
-    pub fn new(url: impl Into<String>, token: impl Into<String>, path: impl Into<String>) -> Self {
-        Self {
-            url: url.into(),
-            token: token.into(),
-            path: path.into(),
-            query: Vec::new(),
-            path_params: Vec::new(),
-        }
-    }
-}
-
 #[async_trait]
 impl Sendable<ListClubAdmins, Vec<Lap>> for ListClubAdmins {
     async fn send(mut self) -> Result<Vec<Lap>, ErrorWrapper> {
@@ -71,18 +46,6 @@ pub struct GetClub {
     path: String,
     query: Vec<(String, String)>,
     path_params: Vec<(String, String)>,
-}
-
-impl GetClub {
-    pub fn new(url: impl Into<String>, token: impl Into<String>, path: impl Into<String>) -> Self {
-        Self {
-            url: url.into(),
-            token: token.into(),
-            path: path.into(),
-            query: Vec::new(),
-            path_params: Vec::new(),
-        }
-    }
 }
 
 #[async_trait]
@@ -102,51 +65,8 @@ pub struct GetClubMembers {
     path_params: Vec<(String, String)>,
 }
 
-impl GetClubMembers {
-    pub fn new(url: impl Into<String>, token: impl Into<String>, path: impl Into<String>) -> Self {
-        Self {
-            url: url.into(),
-            token: token.into(),
-            path: path.into(),
-            query: Vec::new(),
-            path_params: Vec::new(),
-        }
-    }
-}
-
 #[async_trait]
 impl Sendable<GetClubMembers, Vec<Lap>> for GetClubMembers {
-    async fn send(mut self) -> Result<Vec<Lap>, ErrorWrapper> {
-        get_with_query_and_path(self.clone(), &self.token).await
-    }
-}
-
-
-
-
-#[derive(Debug, Clone, Endpoint, Query, PathQuery, ID)]
-pub struct ListAthleteClubs {
-    url: String,
-    token: String,
-    path: String,
-    query: Vec<(String, String)>,
-    path_params: Vec<(String, String)>,
-}
-
-impl ListAthleteClubs {
-    pub fn new(url: impl Into<String>, token: impl Into<String>, path: impl Into<String>) -> Self {
-        Self {
-            url: url.into(),
-            token: token.into(),
-            path: path.into(),
-            query: Vec::new(),
-            path_params: Vec::new(),
-        }
-    }
-}
-
-#[async_trait]
-impl Sendable<ListAthleteClubs, Vec<Lap>> for ListAthleteClubs {
     async fn send(mut self) -> Result<Vec<Lap>, ErrorWrapper> {
         get_with_query_and_path(self.clone(), &self.token).await
     }

@@ -1,4 +1,4 @@
-use crate::endpoints::{ActivitiesEndpoint, AthletesEndpoint, ClubsEndpoint, GearEndpoint, RoutesEndpoint, SegmentsEndpoint};
+use crate::endpoints::{ActivitiesEndpoint, AthleteEndpoint, AthletesEndpoint, ClubsEndpoint, GearEndpoint, RoutesEndpoint, SegmentsEndpoint};
 
 #[derive(Clone)]
 pub struct StravaAPI {
@@ -16,6 +16,10 @@ impl StravaAPI {
 
     pub fn activities(&self) -> ActivitiesEndpoint {
         ActivitiesEndpoint::new(&self.url, &self.token)
+    }
+
+    pub fn athlete(&self) -> AthleteEndpoint {
+        AthleteEndpoint::new(&self.url, &self.token)
     }
 
     pub fn athletes(&self) -> AthletesEndpoint {

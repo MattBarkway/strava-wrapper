@@ -93,7 +93,7 @@ pub struct Lap {
     split: i32,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, PartialEq)]
 pub struct Zones {
     score: i32,
     sensor_based: bool,
