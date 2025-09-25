@@ -4,20 +4,6 @@ An asynchronous wrapper for the [Strava API](https://developers.strava.com/), wr
 
 This library provides a builder-style interface for accessing Strava API endpoints.
 
-Currently supported:
-- Activities
-- Comments
-- Kudos
-
-Coming soon:
-- ~~Athletes~~
-- ~~Clubs~~
-- ~~Gear~~
-- ~~Routes~~
-- ~~Segments~~
-- ~~SegmentEfforts~~
-- ~~Uploads~~
-
 ---
 
 ## Installation
