@@ -1,12 +1,12 @@
 use crate::filters::activities::GetActivity;
-use crate::filters::athlete::{GetAthlete, ListAthleteClubs};
-use crate::filters::comments::ListActivityComments;
-use crate::filters::kudos::ListActivityKudoers;
-use crate::filters::laps::ListActivityLaps;
 use crate::filters::activity_zones::ListActivityZones;
+use crate::filters::athlete::{GetAthlete, ListAthleteClubs};
 use crate::filters::athlete_zones::GetAthleteZones;
 use crate::filters::clubs::{GetClub, GetClubMembers, ListClubActivities, ListClubAdmins};
+use crate::filters::comments::ListActivityComments;
 use crate::filters::gear::GetGear;
+use crate::filters::kudos::ListActivityKudoers;
+use crate::filters::laps::ListActivityLaps;
 use crate::filters::routes::{ExportGPXRoute, ExportTCXRoute, GetRoute, ListAthleteRoutes};
 use crate::filters::segment_efforts::{GetSegmentEffort, ListSegmentEfforts};
 use crate::filters::segments::{ExploreSegments, GetSegment, ListStarredSegments};
@@ -55,7 +55,6 @@ use crate::query::Endpoint;
 //  Uploads
 //  Streams
 
-
 pub struct ActivitiesEndpoint {
     url: String,
     token: String,
@@ -72,7 +71,6 @@ impl ActivitiesEndpoint {
         GetActivity::new(&self.url, &self.token, "v3/activities/{id}")
     }
 
-
     pub fn comments(&self) -> ListActivityComments {
         ListActivityComments::new(&self.url, &self.token, "v3/activities/{id}/comments")
     }
@@ -87,7 +85,6 @@ impl ActivitiesEndpoint {
     pub fn zones(&self) -> ListActivityZones {
         ListActivityZones::new(&self.url, &self.token, "v3/activities/{id}/zones")
     }
-
 
     pub fn update(&self) -> () {
         todo!()
@@ -123,7 +120,6 @@ impl AthleteEndpoint {
     pub fn update(&self) -> () {
         todo!()
     }
-    
 }
 pub struct AthletesEndpoint {
     url: String,
@@ -175,7 +171,6 @@ impl ClubsEndpoint {
         GetClubMembers::new(&self.url, &self.token, "v3/clubs/{id}/members")
     }
 }
-
 
 pub struct GearEndpoint {
     url: String,
@@ -238,7 +233,6 @@ impl ExportRoute {
     }
 }
 
-
 pub struct SegmentsEndpoint {
     url: String,
     token: String,
@@ -267,11 +261,11 @@ impl SegmentsEndpoint {
         GetSegment::new(&self.url, &self.token, "v3/segments/{id}")
     }
 
-    pub fn star() -> () {todo!()
-    // segments/{id}/starred
-        }
+    pub fn star() -> () {
+        todo!()
+        // segments/{id}/starred
+    }
 }
-
 
 pub struct SegmentEffort {
     url: String,

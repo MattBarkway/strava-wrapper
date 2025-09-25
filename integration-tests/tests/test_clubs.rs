@@ -1,9 +1,8 @@
-
 mod test {
     use httpmock::MockServer;
     use serde_json::json;
     use strava_wrapper::api::StravaAPI;
-    use strava_wrapper::models::{SimpleAthlete};
+    use strava_wrapper::models::SimpleAthlete;
     use strava_wrapper::query::{Sendable, ID};
 
     #[tokio::test]
@@ -22,13 +21,7 @@ mod test {
 
         let api = StravaAPI::new(&server.base_url(), "foo");
 
-        let result = api
-            .clubs()
-            .get()
-            .id(123)
-            .send()
-            .await
-            .unwrap();
+        let result = api.clubs().get().id(123).send().await.unwrap();
 
         assert_eq!(result, expected);
 
@@ -51,13 +44,7 @@ mod test {
 
         let api = StravaAPI::new(&server.base_url(), "foo");
 
-        let result = api
-            .clubs()
-            .members()
-            .id(123)
-            .send()
-            .await
-            .unwrap();
+        let result = api.clubs().members().id(123).send().await.unwrap();
 
         assert_eq!(result, expected);
 
@@ -80,13 +67,7 @@ mod test {
 
         let api = StravaAPI::new(&server.base_url(), "foo");
 
-        let result = api
-            .clubs()
-            .activities()
-            .id(123)
-            .send()
-            .await
-            .unwrap();
+        let result = api.clubs().activities().id(123).send().await.unwrap();
 
         assert_eq!(result, expected);
 
@@ -109,13 +90,7 @@ mod test {
 
         let api = StravaAPI::new(&server.base_url(), "foo");
 
-        let result = api
-            .clubs()
-            .admins()
-            .id(123)
-            .send()
-            .await
-            .unwrap();
+        let result = api.clubs().admins().id(123).send().await.unwrap();
 
         assert_eq!(result, expected);
 

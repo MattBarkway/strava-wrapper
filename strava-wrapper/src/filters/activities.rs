@@ -1,6 +1,7 @@
 use crate::models::Activity;
 use crate::query::{
-    get_with_query_and_path, Endpoint, ErrorWrapper, PathQuery, Query, Sendable, ID, IncludeAllEfforts
+    get_with_query_and_path, Endpoint, ErrorWrapper, IncludeAllEfforts, PathQuery, Query, Sendable,
+    ID,
 };
 use async_trait::async_trait;
 use std::collections::HashMap;
@@ -16,7 +17,7 @@ pub struct GetActivity {
 }
 
 #[async_trait]
-impl Sendable<GetActivity, Activity> for GetActivity {
+impl Sendable<Activity> for GetActivity {
     async fn send(mut self) -> Result<Activity, ErrorWrapper> {
         get_with_query_and_path(self.clone(), &self.token).await
     }

@@ -1,9 +1,8 @@
-
 mod test {
     use httpmock::MockServer;
     use serde_json::json;
     use strava_wrapper::api::StravaAPI;
-    use strava_wrapper::models::{Zones};
+    use strava_wrapper::models::Zones;
     use strava_wrapper::query::{Sendable, ID};
 
     #[tokio::test]

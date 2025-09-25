@@ -1,7 +1,6 @@
-use crate::models::{User};
+use crate::models::User;
 use crate::query::{
-    get_with_query_and_path, Endpoint, ErrorWrapper, PathQuery, Query,
-    Sendable, ID,
+    get_with_query_and_path, Endpoint, ErrorWrapper, PathQuery, Query, Sendable, ID,
 };
 use async_trait::async_trait;
 use std::collections::HashMap;
@@ -17,7 +16,7 @@ pub struct GetRoute {
 }
 
 #[async_trait]
-impl Sendable<GetRoute, Vec<User>> for GetRoute {
+impl Sendable<Vec<User>> for GetRoute {
     async fn send(mut self) -> Result<Vec<User>, ErrorWrapper> {
         get_with_query_and_path(self.clone(), &self.token).await
     }
@@ -33,12 +32,11 @@ pub struct ListAthleteRoutes {
 }
 
 #[async_trait]
-impl Sendable<ListAthleteRoutes, Vec<User>> for ListAthleteRoutes {
+impl Sendable<Vec<User>> for ListAthleteRoutes {
     async fn send(mut self) -> Result<Vec<User>, ErrorWrapper> {
         get_with_query_and_path(self.clone(), &self.token).await
     }
 }
-
 
 #[derive(Debug, Clone, Endpoint, Query, PathQuery, ID)]
 pub struct ExportTCXRoute {
@@ -50,7 +48,7 @@ pub struct ExportTCXRoute {
 }
 
 #[async_trait]
-impl Sendable<ExportTCXRoute, Vec<User>> for ExportTCXRoute {
+impl Sendable<Vec<User>> for ExportTCXRoute {
     async fn send(mut self) -> Result<Vec<User>, ErrorWrapper> {
         get_with_query_and_path(self.clone(), &self.token).await
     }
@@ -66,7 +64,7 @@ pub struct ExportGPXRoute {
 }
 
 #[async_trait]
-impl Sendable<ExportGPXRoute, Vec<User>> for ExportGPXRoute {
+impl Sendable<Vec<User>> for ExportGPXRoute {
     async fn send(mut self) -> Result<Vec<User>, ErrorWrapper> {
         get_with_query_and_path(self.clone(), &self.token).await
     }

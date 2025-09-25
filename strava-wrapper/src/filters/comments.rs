@@ -7,7 +7,6 @@ use async_trait::async_trait;
 use std::collections::HashMap;
 use strava_wrapper_macros::{AfterCursor, Endpoint, PageSize, PathQuery, Query, ID};
 
-
 #[derive(Debug, Clone, Endpoint, Query, PathQuery, ID, PageSize, AfterCursor)]
 pub struct ListActivityComments {
     url: String,
@@ -18,7 +17,7 @@ pub struct ListActivityComments {
 }
 
 #[async_trait]
-impl Sendable<ListActivityComments, Vec<Comment>> for ListActivityComments {
+impl Sendable<Vec<Comment>> for ListActivityComments {
     async fn send(mut self) -> Result<Vec<Comment>, ErrorWrapper> {
         get_with_query_and_path(self.clone(), &self.token).await
     }

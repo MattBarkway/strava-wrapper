@@ -1,7 +1,6 @@
-use crate::models::{Lap};
+use crate::models::Lap;
 use crate::query::{
-    get_with_query_and_path, Endpoint, ErrorWrapper, PathQuery, Query,Page, PerPage,
-    Sendable, ID,
+    get_with_query_and_path, Endpoint, ErrorWrapper, Page, PathQuery, PerPage, Query, Sendable, ID,
 };
 use async_trait::async_trait;
 use std::collections::HashMap;
@@ -16,12 +15,11 @@ pub struct ListClubActivities {
     path_params: Vec<(String, String)>,
 }
 #[async_trait]
-impl Sendable<ListClubActivities, Vec<Lap>> for ListClubActivities {
+impl Sendable<Vec<Lap>> for ListClubActivities {
     async fn send(mut self) -> Result<Vec<Lap>, ErrorWrapper> {
         get_with_query_and_path(self.clone(), &self.token).await
     }
 }
-
 
 #[derive(Debug, Clone, Endpoint, Query, PathQuery, ID, Page, PerPage)]
 pub struct ListClubAdmins {
@@ -33,7 +31,7 @@ pub struct ListClubAdmins {
 }
 
 #[async_trait]
-impl Sendable<ListClubAdmins, Vec<Lap>> for ListClubAdmins {
+impl Sendable<Vec<Lap>> for ListClubAdmins {
     async fn send(mut self) -> Result<Vec<Lap>, ErrorWrapper> {
         get_with_query_and_path(self.clone(), &self.token).await
     }
@@ -49,12 +47,11 @@ pub struct GetClub {
 }
 
 #[async_trait]
-impl Sendable<GetClub, Vec<Lap>> for GetClub {
+impl Sendable<Vec<Lap>> for GetClub {
     async fn send(mut self) -> Result<Vec<Lap>, ErrorWrapper> {
         get_with_query_and_path(self.clone(), &self.token).await
     }
 }
-
 
 #[derive(Debug, Clone, Endpoint, Query, PathQuery, ID, Page, PerPage)]
 pub struct GetClubMembers {
@@ -66,7 +63,7 @@ pub struct GetClubMembers {
 }
 
 #[async_trait]
-impl Sendable<GetClubMembers, Vec<Lap>> for GetClubMembers {
+impl Sendable<Vec<Lap>> for GetClubMembers {
     async fn send(mut self) -> Result<Vec<Lap>, ErrorWrapper> {
         get_with_query_and_path(self.clone(), &self.token).await
     }

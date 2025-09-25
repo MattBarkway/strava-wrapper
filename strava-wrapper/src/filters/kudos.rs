@@ -1,11 +1,10 @@
-use crate::models::{User};
+use crate::models::User;
 use crate::query::{
-    get_with_query_and_path, Endpoint, ErrorWrapper, Page, PathQuery, Query, PerPage,
-    Sendable, ID,
+    get_with_query_and_path, Endpoint, ErrorWrapper, Page, PathQuery, PerPage, Query, Sendable, ID,
 };
 use async_trait::async_trait;
 use std::collections::HashMap;
-use strava_wrapper_macros::{Endpoint, Page, PerPage, PathQuery, Query, ID};
+use strava_wrapper_macros::{Endpoint, Page, PathQuery, PerPage, Query, ID};
 
 #[derive(Debug, Clone, Endpoint, Query, PathQuery, ID, Page, PerPage)]
 pub struct ListActivityKudoers {
@@ -17,7 +16,7 @@ pub struct ListActivityKudoers {
 }
 
 #[async_trait]
-impl Sendable<ListActivityKudoers, Vec<User>> for ListActivityKudoers {
+impl Sendable<Vec<User>> for ListActivityKudoers {
     async fn send(mut self) -> Result<Vec<User>, ErrorWrapper> {
         get_with_query_and_path(self.clone(), &self.token).await
     }

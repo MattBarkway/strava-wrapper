@@ -1,7 +1,6 @@
-use crate::models::{Lap};
+use crate::models::Lap;
 use crate::query::{
-    get_with_query_and_path, Endpoint, ErrorWrapper, PathQuery, Query,
-    Sendable, ID,
+    get_with_query_and_path, Endpoint, ErrorWrapper, PathQuery, Query, Sendable, ID,
 };
 use async_trait::async_trait;
 use std::collections::HashMap;
@@ -17,7 +16,7 @@ pub struct ListActivityLaps {
 }
 
 #[async_trait]
-impl Sendable<ListActivityLaps, Vec<Lap>> for ListActivityLaps {
+impl Sendable<Vec<Lap>> for ListActivityLaps {
     async fn send(mut self) -> Result<Vec<Lap>, ErrorWrapper> {
         get_with_query_and_path(self.clone(), &self.token).await
     }

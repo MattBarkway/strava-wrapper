@@ -1,7 +1,6 @@
-use crate::models::{Zones};
+use crate::models::Zones;
 use crate::query::{
-    get_with_query_and_path, Endpoint, ErrorWrapper, PathQuery, Query,
-    Sendable, ID,
+    get_with_query_and_path, Endpoint, ErrorWrapper, PathQuery, Query, Sendable, ID,
 };
 use async_trait::async_trait;
 use std::collections::HashMap;
@@ -17,7 +16,7 @@ pub struct ListActivityZones {
 }
 
 #[async_trait]
-impl Sendable<ListActivityZones, Vec<Zones>> for ListActivityZones {
+impl Sendable<Vec<Zones>> for ListActivityZones {
     async fn send(mut self) -> Result<Vec<Zones>, ErrorWrapper> {
         get_with_query_and_path(self.clone(), &self.token).await
     }

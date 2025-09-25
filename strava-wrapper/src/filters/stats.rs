@@ -1,7 +1,6 @@
-use crate::models::{User};
+use crate::models::User;
 use crate::query::{
-    get_with_query_and_path, Endpoint, ErrorWrapper, PathQuery, Query,
-    Sendable, ID,
+    get_with_query_and_path, Endpoint, ErrorWrapper, PathQuery, Query, Sendable, ID,
 };
 use async_trait::async_trait;
 use std::collections::HashMap;
@@ -29,7 +28,7 @@ impl GetAthleteStats {
 }
 
 #[async_trait]
-impl Sendable<GetAthleteStats, Vec<User>> for GetAthleteStats {
+impl Sendable<Vec<User>> for GetAthleteStats {
     async fn send(mut self) -> Result<Vec<User>, ErrorWrapper> {
         get_with_query_and_path(self.clone(), &self.token).await
     }

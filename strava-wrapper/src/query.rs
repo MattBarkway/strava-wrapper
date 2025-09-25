@@ -83,7 +83,7 @@ pub trait EndPoint {
 }
 
 #[async_trait]
-pub trait Sendable<T, U> {
+pub trait Sendable<U> {
     async fn send(self) -> Result<U, ErrorWrapper>;
 }
 
@@ -101,7 +101,7 @@ pub trait Query: Sized + Clone {
 pub trait Endpoint: Sized + Clone {
     fn new(url: impl Into<String>, token: impl Into<String>, path: impl Into<String>) -> Self
     where
-    Self: Sized;
+        Self: Sized;
 
     fn endpoint(&self) -> String;
 }
@@ -141,7 +141,7 @@ pub trait TimeFilter {
 
 pub async fn get_with_query<T, U>(inst: T, token: &str) -> Result<U, ErrorWrapper>
 where
-    T: Endpoint + Query + PathQuery + Sendable<T, U>,
+    T: Endpoint + Query + PathQuery + Sendable<U>,
     U: DeserializeOwned + Debug,
 {
     let url = T::format_to_query_params(&inst.endpoint(), inst.get_query_params())

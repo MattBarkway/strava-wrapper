@@ -1,10 +1,9 @@
-
 mod test {
     use httpmock::MockServer;
     use serde_json::json;
     use strava_wrapper::api::StravaAPI;
-    use strava_wrapper::models::{SimpleAthlete};
-    use strava_wrapper::query::{Sendable};
+    use strava_wrapper::models::SimpleAthlete;
+    use strava_wrapper::query::Sendable;
 
     #[tokio::test]
     async fn test_get_athlete() {
@@ -22,12 +21,7 @@ mod test {
 
         let api = StravaAPI::new(&server.base_url(), "foo");
 
-        let result = api
-            .athlete()
-            .get()
-            .send()
-            .await
-            .unwrap();
+        let result = api.athlete().get().send().await.unwrap();
 
         assert_eq!(result, expected);
 
@@ -49,12 +43,7 @@ mod test {
 
         let api = StravaAPI::new(&server.base_url(), "foo");
 
-        let result = api
-            .athlete()
-            .clubs()
-            .send()
-            .await
-            .unwrap();
+        let result = api.athlete().clubs().send().await.unwrap();
 
         assert_eq!(result, expected);
 

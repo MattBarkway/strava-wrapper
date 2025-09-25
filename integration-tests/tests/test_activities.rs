@@ -1,4 +1,3 @@
-
 mod test {
     use httpmock::MockServer;
     use serde_json::json;
@@ -22,13 +21,7 @@ mod test {
 
         let api = StravaAPI::new(&server.base_url(), "foo");
 
-        let result = api
-            .activities()
-            .get()
-            .id(123)
-            .send()
-            .await
-            .unwrap();
+        let result = api.activities().get().id(123).send().await.unwrap();
 
         assert_eq!(result, expected);
 

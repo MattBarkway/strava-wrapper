@@ -1,4 +1,7 @@
-use crate::endpoints::{ActivitiesEndpoint, AthleteEndpoint, AthletesEndpoint, ClubsEndpoint, GearEndpoint, RoutesEndpoint, SegmentsEndpoint};
+use crate::endpoints::{
+    ActivitiesEndpoint, AthleteEndpoint, AthletesEndpoint, ClubsEndpoint, GearEndpoint,
+    RoutesEndpoint, SegmentsEndpoint,
+};
 
 #[derive(Clone)]
 pub struct StravaAPI {

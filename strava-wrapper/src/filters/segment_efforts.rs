@@ -1,7 +1,6 @@
-use crate::models::{User};
+use crate::models::User;
 use crate::query::{
-    get_with_query_and_path, Endpoint, ErrorWrapper, PathQuery, Query,
-    Sendable, ID,
+    get_with_query_and_path, Endpoint, ErrorWrapper, PathQuery, Query, Sendable, ID,
 };
 use async_trait::async_trait;
 use std::collections::HashMap;
@@ -17,12 +16,11 @@ pub struct GetSegmentEffort {
 }
 
 #[async_trait]
-impl Sendable<GetSegmentEffort, Vec<User>> for GetSegmentEffort {
+impl Sendable<Vec<User>> for GetSegmentEffort {
     async fn send(mut self) -> Result<Vec<User>, ErrorWrapper> {
         get_with_query_and_path(self.clone(), &self.token).await
     }
 }
-
 
 #[derive(Debug, Clone, Endpoint, Query, PathQuery, ID)]
 pub struct ListSegmentEfforts {
@@ -34,7 +32,7 @@ pub struct ListSegmentEfforts {
 }
 
 #[async_trait]
-impl Sendable<ListSegmentEfforts, Vec<User>> for ListSegmentEfforts {
+impl Sendable<Vec<User>> for ListSegmentEfforts {
     async fn send(mut self) -> Result<Vec<User>, ErrorWrapper> {
         get_with_query_and_path(self.clone(), &self.token).await
     }
