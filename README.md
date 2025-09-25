@@ -34,9 +34,9 @@ let activity = api
 ```
 ```rust
 // Get comments for activity by ID
-let comments = api.activities()
+let comments = api
+    .activities()
     .comments()
-    .get()
     .id(123)
     .per_page(10)
     .page(2)
