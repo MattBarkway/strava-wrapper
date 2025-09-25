@@ -1,7 +1,6 @@
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 
-/// A roll-up of metrics pertaining to a set of activities.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ActivityTotal {
     pub count: Option<i32>,
@@ -12,7 +11,6 @@ pub struct ActivityTotal {
     pub achievement_count: Option<i32>,
 }
 
-/// A set of rolled-up statistics and totals for an athlete.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ActivityStats {
     pub biggest_ride_distance: Option<f64>,
@@ -28,7 +26,6 @@ pub struct ActivityStats {
     pub all_swim_totals: Option<ActivityTotal>,
 }
 
-/// An enumeration of the types an activity may have.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "PascalCase")]
 pub enum ActivityType {
@@ -73,36 +70,25 @@ pub enum ActivityType {
     Unknown,
 }
 
-// /// Distribution bucket used inside ActivityZone
-// #[derive(Debug, Clone, Serialize, Deserialize)]
-// pub struct TimedZoneDistribution {
-//     pub min: Option<i32>,
-//     pub max: Option<i32>,
-//     pub time: Option<i32>,
-// }
-
-/// Representation of activity zones (e.g., heart rate, power).
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ActivityZone {
     pub score: Option<i32>,
     pub distribution_buckets: Option<Vec<TimedZoneDistribution>>,
     #[serde(rename = "type")]
-    pub zone_type: Option<String>, // "heartrate" or "power"
+    pub zone_type: Option<String>,
     pub sensor_based: Option<bool>,
     pub points: Option<i32>,
     pub custom_zones: Option<bool>,
     pub max: Option<i32>,
 }
 
-/// Base stream information for Strava activity streams.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct BaseStream {
     pub original_size: Option<i32>,
-    pub resolution: Option<String>,  // "low", "medium", "high"
-    pub series_type: Option<String>, // "distance" or "time"
+    pub resolution: Option<String>,
+    pub series_type: Option<String>,
 }
 
-/// Representation of a club activity.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ClubActivity {
     pub athlete: Option<MetaAthlete>,
@@ -118,18 +104,16 @@ pub struct ClubActivity {
     pub workout_type: Option<i32>,
 }
 
-/// Representation of a club athlete.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ClubAthlete {
-    pub resource_state: Option<i32>, // 1 = meta, 2 = summary, 3 = detail
+    pub resource_state: Option<i32>,
     pub firstname: Option<String>,
-    pub lastname: Option<String>, // last initial
-    pub member: Option<String>,   // membership status
+    pub lastname: Option<String>,
+    pub member: Option<String>,
     pub admin: Option<bool>,
     pub owner: Option<bool>,
 }
 
-/// Representation of a comment on an activity.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SimpleComment {
     pub id: Option<i64>,
@@ -139,7 +123,6 @@ pub struct SimpleComment {
     pub created_at: Option<DateTime<Utc>>,
 }
 
-/// Error information returned by the Strava API.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Error {
     pub code: Option<String>,
@@ -216,42 +199,6 @@ struct SimpleActivity {
     resource_state: i32,
 }
 
-// #[derive(Debug, Deserialize)]
-// pub struct Lap {
-//     id: i64,
-//     resource_state: i32,
-//     name: String,
-//     activity: SimpleActivity,
-//     athlete: SimpleAthlete,
-//     elapsed_time: i32,
-//     moving_time: i32,
-//     start_date: String,
-//     start_date_local: String,
-//     distance: f64,
-//     start_index: i32,
-//     end_index: i32,
-//     total_elevation_gain: f64,
-//     average_speed: f64,
-//     max_speed: f64,
-//     average_cadence: f64,
-//     device_watts: bool,
-//     average_watts: f64,
-//     lap_index: i32,
-//     split: i32,
-// }
-
-// #[derive(Debug, Serialize, Deserialize, PartialEq)]
-// pub struct Zones {
-//     score: i32,
-//     sensor_based: bool,
-//     custom_zones: bool,
-//     max: i32,
-//     distribution_buckets: String,
-//     #[serde(rename = "type")]
-//     data_type: String,
-//     points: i32,
-// }
-
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct SimpleAthlete {
     pub id: i64,
@@ -290,42 +237,37 @@ pub struct User {
     resource_state: Option<i32>,
 }
 
-/// Explorer API response, listing segments.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ExplorerResponse {
     pub segments: Option<Vec<ExplorerSegment>>,
 }
 
-/// A single explorer segment.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ExplorerSegment {
     pub id: Option<i64>,
     pub name: Option<String>,
-    pub climb_category: Option<i32>,         // [0, 5]
-    pub climb_category_desc: Option<String>, // "NC", "4", "3", "2", "1", "HC"
-    pub avg_grade: Option<f32>,              // percent
+    pub climb_category: Option<i32>,
+    pub climb_category_desc: Option<String>,
+    pub avg_grade: Option<f32>,
     pub start_latlng: Option<LatLng>,
     pub end_latlng: Option<LatLng>,
-    pub elev_difference: Option<f32>, // meters
-    pub distance: Option<f32>,        // meters
-    pub points: Option<String>,       // polyline
+    pub elev_difference: Option<f32>,
+    pub distance: Option<f32>,
+    pub points: Option<String>,
 }
 
-/// Encapsulates errors that may be returned from the API.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Fault {
     pub errors: Option<Vec<Error>>,
     pub message: Option<String>,
 }
 
-/// Athlete’s heart rate zone ranges.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct HeartRateZoneRanges {
     pub custom_zones: Option<bool>,
     pub zones: Option<ZoneRanges>,
 }
 
-/// A single lap in an activity.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Lap {
     pub id: Option<i64>,
@@ -333,61 +275,47 @@ pub struct Lap {
     pub athlete: Option<MetaAthlete>,
     pub average_cadence: Option<f32>,
     pub average_speed: Option<f32>,
-    pub distance: Option<f32>,     // meters
-    pub elapsed_time: Option<i32>, // seconds
+    pub distance: Option<f32>,
+    pub elapsed_time: Option<i32>,
     pub start_index: Option<i32>,
     pub end_index: Option<i32>,
     pub lap_index: Option<i32>,
-    pub max_speed: Option<f32>,   // m/s
-    pub moving_time: Option<i32>, // seconds
+    pub max_speed: Option<f32>,
+    pub moving_time: Option<i32>,
     pub name: Option<String>,
     pub pace_zone: Option<i32>,
     pub split: Option<i32>,
     pub start_date: Option<DateTime<Utc>>,
     pub start_date_local: Option<DateTime<Utc>>,
-    pub total_elevation_gain: Option<f32>, // meters
+    pub total_elevation_gain: Option<f32>,
 }
 
-/// A pair of latitude/longitude coordinates.
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct LatLng(
-    pub f64, // latitude
-    pub f64, // longitude
-);
+pub struct LatLng(pub f64, pub f64);
 
-// pub struct ZoneRanges {
-//     pub min: Option<i32>,
-//     pub max: Option<i32>,
-// }
-
-/// Meta representation of an activity.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct MetaActivity {
     pub id: Option<i64>,
 }
 
-/// Meta representation of an athlete.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct MetaAthlete {
     pub id: Option<i64>,
 }
 
-/// Meta representation of a club.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct MetaClub {
     pub id: Option<i64>,
-    pub resource_state: Option<i32>, // 1 = meta, 2 = summary, 3 = detail
+    pub resource_state: Option<i32>,
     pub name: Option<String>,
 }
 
-/// Summary of photos associated with an activity.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PhotosSummary {
     pub count: Option<i32>,
     pub primary: Option<PhotosSummaryPrimary>,
 }
 
-/// Representation of the primary photo in a summary.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PhotosSummaryPrimary {
     pub id: Option<i64>,
@@ -396,7 +324,6 @@ pub struct PhotosSummaryPrimary {
     pub urls: Option<String>,
 }
 
-/// Polyline map data associated with activities or routes.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PolylineMap {
     pub id: Option<String>,
@@ -404,48 +331,44 @@ pub struct PolylineMap {
     pub summary_polyline: Option<String>,
 }
 
-/// Athlete’s power zone ranges.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PowerZoneRanges {
     pub zones: Option<ZoneRanges>,
 }
 
-/// Representation of a saved route.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Route {
     pub athlete: Option<SummaryAthlete>,
     pub description: Option<String>,
-    pub distance: Option<f32>,       // meters
-    pub elevation_gain: Option<f32>, // meters
+    pub distance: Option<f32>,
+    pub elevation_gain: Option<f32>,
     pub id: Option<i64>,
     pub id_str: Option<String>,
     pub map: Option<PolylineMap>,
     pub name: Option<String>,
     pub private: Option<bool>,
     pub starred: Option<bool>,
-    pub timestamp: Option<i64>, // epoch
-    pub r#type: Option<i32>,    // 1 = ride, 2 = run
-    pub sub_type: Option<i32>,  // 1=road, 2=mtb, 3=cross, 4=trail, 5=mixed
+    pub timestamp: Option<i64>,
+    pub r#type: Option<i32>,
+    pub sub_type: Option<i32>,
     pub created_at: Option<DateTime<Utc>>,
     pub updated_at: Option<DateTime<Utc>>,
-    pub estimated_moving_time: Option<i32>, // seconds
+    pub estimated_moving_time: Option<i32>,
     pub segments: Option<Vec<SummarySegment>>,
     pub waypoints: Option<Vec<Waypoint>>,
 }
 
-/// Representation of a split in an activity.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Split {
-    pub average_speed: Option<f32>,        // m/s
-    pub distance: Option<f32>,             // meters
-    pub elapsed_time: Option<i32>,         // seconds
-    pub elevation_difference: Option<f32>, // meters
+    pub average_speed: Option<f32>,
+    pub distance: Option<f32>,
+    pub elapsed_time: Option<i32>,
+    pub elevation_difference: Option<f32>,
     pub pace_zone: Option<i32>,
-    pub moving_time: Option<i32>, // seconds
+    pub moving_time: Option<i32>,
     pub split: Option<i32>,
 }
 
-/// Enumeration of sport types, covering Strava’s newer expanded set.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "PascalCase")]
 pub enum SportType {
@@ -503,7 +426,6 @@ pub enum SportType {
     Unknown,
 }
 
-/// A set of all possible streams returned for an activity.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct StreamSet {
     pub time: Option<TimeStream>,
@@ -519,39 +441,36 @@ pub struct StreamSet {
     pub grade_smooth: Option<SmoothGradeStream>,
 }
 
-/// Summary information about gear.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SummaryGear {
     pub id: Option<String>,
-    pub resource_state: Option<i32>, // 2 = summary, 3 = detail
+    pub resource_state: Option<i32>,
     pub primary: Option<bool>,
     pub name: Option<String>,
-    pub distance: Option<f32>, // meters
+    pub distance: Option<f32>,
 }
 
-/// A PR (personal record) effort summary for a segment.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SummaryPRSegmentEffort {
     pub pr_activity_id: Option<i64>,
-    pub pr_elapsed_time: Option<i32>, // seconds
+    pub pr_elapsed_time: Option<i32>,
     pub pr_date: Option<DateTime<Utc>>,
     pub effort_count: Option<i32>,
 }
 
-/// A summary representation of a segment.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SummarySegment {
     pub id: Option<i64>,
     pub name: Option<String>,
-    pub activity_type: Option<String>, // "Ride" or "Run"
-    pub distance: Option<f32>,         // meters
-    pub average_grade: Option<f32>,    // percent
-    pub maximum_grade: Option<f32>,    // percent
-    pub elevation_high: Option<f32>,   // meters
-    pub elevation_low: Option<f32>,    // meters
+    pub activity_type: Option<String>,
+    pub distance: Option<f32>,
+    pub average_grade: Option<f32>,
+    pub maximum_grade: Option<f32>,
+    pub elevation_high: Option<f32>,
+    pub elevation_low: Option<f32>,
     pub start_latlng: Option<LatLng>,
     pub end_latlng: Option<LatLng>,
-    pub climb_category: Option<i32>, // [0, 5]
+    pub climb_category: Option<i32>,
     pub city: Option<String>,
     pub state: Option<String>,
     pub country: Option<String>,
@@ -560,25 +479,22 @@ pub struct SummarySegment {
     pub athlete_segment_stats: Option<SummarySegmentEffort>,
 }
 
-/// A summary representation of a segment effort.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SummarySegmentEffort {
     pub id: Option<i64>,
     pub activity_id: Option<i64>,
-    pub elapsed_time: Option<i32>, // seconds
+    pub elapsed_time: Option<i32>,
     pub start_date: Option<DateTime<Utc>>,
     pub start_date_local: Option<DateTime<Utc>>,
-    pub distance: Option<f32>, // meters
+    pub distance: Option<f32>,
     pub is_kom: Option<bool>,
 }
 
-/// Distribution of time spent in zone ranges.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct TimedZoneDistribution {
     pub ranges: Option<Vec<TimedZoneRange>>,
 }
 
-/// Activity fields that can be updated.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct UpdatableActivity {
     pub commute: Option<bool>,
@@ -590,10 +506,9 @@ pub struct UpdatableActivity {
     #[serde(default)]
     pub r#type: Option<ActivityType>,
     pub sport_type: Option<SportType>,
-    pub gear_id: Option<String>, // "none" clears gear
+    pub gear_id: Option<String>,
 }
 
-/// Representation of an upload request/response.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Upload {
     pub id: Option<i64>,
@@ -604,7 +519,6 @@ pub struct Upload {
     pub activity_id: Option<i64>,
 }
 
-/// A waypoint along a route.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Waypoint {
     pub latlng: Option<LatLng>,
@@ -612,83 +526,76 @@ pub struct Waypoint {
     pub categories: Option<String>,
     pub title: Option<String>,
     pub description: Option<String>,
-    pub distance_into_route: Option<i32>, // meters
+    pub distance_into_route: Option<i32>,
 }
 
-/// A single range of values (e.g., zone min/max).
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ZoneRange {
     pub min: Option<i32>,
     pub max: Option<i32>,
 }
 
-/// A collection of zone ranges.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ZoneRanges {
     pub zones: Option<Vec<ZoneRange>>,
 }
 
-/// Wrapper for all zone-related settings.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Zones {
     pub heart_rate: Option<HeartRateZoneRanges>,
     pub power: Option<PowerZoneRanges>,
 }
 
-/// Altitude data stream (meters).
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AltitudeStream {
     pub original_size: Option<i32>,
-    pub resolution: Option<String>,  // "low", "medium", "high"
-    pub series_type: Option<String>, // "distance", "time"
-    pub data: Option<Vec<f32>>,      // meters
+    pub resolution: Option<String>,
+    pub series_type: Option<String>,
+    pub data: Option<Vec<f32>>,
 }
 
-/// Cadence data stream (rotations per minute).
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CadenceStream {
     pub original_size: Option<i32>,
-    pub resolution: Option<String>,  // "low", "medium", "high"
-    pub series_type: Option<String>, // "distance", "time"
-    pub data: Option<Vec<i32>>,      // rpm
+    pub resolution: Option<String>,
+    pub series_type: Option<String>,
+    pub data: Option<Vec<i32>>,
 }
 
-/// Detailed gear information.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DetailedGear {
     pub id: Option<String>,
-    pub resource_state: Option<i32>, // 2 = summary, 3 = detail
+    pub resource_state: Option<i32>,
     pub primary: Option<bool>,
     pub name: Option<String>,
     pub distance: Option<f32>,
     pub brand_name: Option<String>,
     pub model_name: Option<String>,
-    pub frame_type: Option<i32>, // bike only
+    pub frame_type: Option<i32>,
     pub description: Option<String>,
 }
 
-/// Detailed segment information.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DetailedSegment {
     pub id: Option<i64>,
     pub name: Option<String>,
-    pub activity_type: Option<String>, // "Ride" or "Run"
-    pub distance: Option<f32>,         // meters
-    pub average_grade: Option<f32>,    // percent
-    pub maximum_grade: Option<f32>,    // percent
-    pub elevation_high: Option<f32>,   // meters
-    pub elevation_low: Option<f32>,    // meters
+    pub activity_type: Option<String>,
+    pub distance: Option<f32>,
+    pub average_grade: Option<f32>,
+    pub maximum_grade: Option<f32>,
+    pub elevation_high: Option<f32>,
+    pub elevation_low: Option<f32>,
     pub start_latlng: Option<LatLng>,
     pub end_latlng: Option<LatLng>,
-    pub climb_category: Option<i32>, // 0–5
+    pub climb_category: Option<i32>,
     pub city: Option<String>,
     pub state: Option<String>,
     pub country: Option<String>,
     pub private: Option<bool>,
     pub athlete_pr_effort: Option<SummaryPRSegmentEffort>,
     pub athlete_segment_stats: Option<SummarySegmentEffort>,
-    pub created_at: Option<String>, // DateTime ISO 8601
-    pub updated_at: Option<String>, // DateTime ISO 8601
+    pub created_at: Option<String>,
+    pub updated_at: Option<String>,
     pub total_elevation_gain: Option<f32>,
     pub map: Option<PolylineMap>,
     pub effort_count: Option<i32>,
@@ -697,20 +604,19 @@ pub struct DetailedSegment {
     pub star_count: Option<i32>,
 }
 
-/// Detailed segment effort.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DetailedSegmentEffort {
     pub id: Option<i64>,
     pub activity_id: Option<i64>,
-    pub elapsed_time: Option<i32>, // seconds
+    pub elapsed_time: Option<i32>,
     pub start_date: Option<DateTime<Utc>>,
     pub start_date_local: Option<DateTime<Utc>>,
-    pub distance: Option<f32>, // meters
+    pub distance: Option<f32>,
     pub is_kom: Option<bool>,
     pub name: Option<String>,
     pub activity: Option<MetaActivity>,
     pub athlete: Option<MetaAthlete>,
-    pub moving_time: Option<i32>, // seconds
+    pub moving_time: Option<i32>,
     pub start_index: Option<i32>,
     pub end_index: Option<i32>,
     pub average_cadence: Option<f32>,
@@ -724,70 +630,62 @@ pub struct DetailedSegmentEffort {
     pub hidden: Option<bool>,
 }
 
-/// Distance stream (meters).
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DistanceStream {
     pub original_size: Option<i32>,
-    pub resolution: Option<String>,  // "low", "medium", "high"
-    pub series_type: Option<String>, // "distance", "time"
-    pub data: Option<Vec<f32>>,      // meters
+    pub resolution: Option<String>,
+    pub series_type: Option<String>,
+    pub data: Option<Vec<f32>>,
 }
 
-/// Heart rate stream (bpm).
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct HeartrateStream {
     pub original_size: Option<i32>,
-    pub resolution: Option<String>,  // "low", "medium", "high"
-    pub series_type: Option<String>, // "distance", "time"
-    pub data: Option<Vec<i32>>,      // bpm
+    pub resolution: Option<String>,
+    pub series_type: Option<String>,
+    pub data: Option<Vec<i32>>,
 }
 
-/// Latitude/longitude stream.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct LatLngStream {
     pub original_size: Option<i32>,
-    pub resolution: Option<String>,  // "low", "medium", "high"
-    pub series_type: Option<String>, // "distance", "time"
-    pub data: Option<Vec<LatLng>>,   // sequence of lat/lng pairs
+    pub resolution: Option<String>,
+    pub series_type: Option<String>,
+    pub data: Option<Vec<LatLng>>,
 }
 
-/// Moving stream (boolean: moving or not).
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct MovingStream {
     pub original_size: Option<i32>,
-    pub resolution: Option<String>,  // "low", "medium", "high"
-    pub series_type: Option<String>, // "distance", "time"
-    pub data: Option<Vec<bool>>,     // moving values
+    pub resolution: Option<String>,
+    pub series_type: Option<String>,
+    pub data: Option<Vec<bool>>,
 }
 
-/// Power stream (watts).
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PowerStream {
     pub original_size: Option<i32>,
-    pub resolution: Option<String>,  // "low", "medium", "high"
-    pub series_type: Option<String>, // "distance", "time"
-    pub data: Option<Vec<i32>>,      // watts
+    pub resolution: Option<String>,
+    pub series_type: Option<String>,
+    pub data: Option<Vec<i32>>,
 }
 
-/// Smooth grade stream (percent).
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SmoothGradeStream {
     pub original_size: Option<i32>,
-    pub resolution: Option<String>,  // "low", "medium", "high"
-    pub series_type: Option<String>, // "distance", "time"
-    pub data: Option<Vec<f32>>,      // percent grade
+    pub resolution: Option<String>,
+    pub series_type: Option<String>,
+    pub data: Option<Vec<f32>>,
 }
 
-/// Smooth velocity stream (meters per second).
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SmoothVelocityStream {
     pub original_size: Option<i32>,
-    pub resolution: Option<String>,  // "low", "medium", "high"
-    pub series_type: Option<String>, // "distance", "time"
-    pub data: Option<Vec<f32>>,      // m/s
+    pub resolution: Option<String>,
+    pub series_type: Option<String>,
+    pub data: Option<Vec<f32>>,
 }
 
-/// Summary representation of an activity.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SummaryActivity {
     pub id: Option<i64>,
@@ -795,9 +693,9 @@ pub struct SummaryActivity {
     pub upload_id: Option<i64>,
     pub athlete: Option<MetaAthlete>,
     pub name: Option<String>,
-    pub distance: Option<f32>,     // meters
-    pub moving_time: Option<i32>,  // seconds
-    pub elapsed_time: Option<i32>, // seconds
+    pub distance: Option<f32>,
+    pub moving_time: Option<i32>,
+    pub elapsed_time: Option<i32>,
     pub total_elevation_gain: Option<f32>,
     pub elev_high: Option<f32>,
     pub elev_low: Option<f32>,
@@ -824,31 +722,30 @@ pub struct SummaryActivity {
     pub flagged: Option<bool>,
     pub workout_type: Option<i32>,
     pub upload_id_str: Option<String>,
-    pub average_speed: Option<f32>, // m/s
-    pub max_speed: Option<f32>,     // m/s
+    pub average_speed: Option<f32>,
+    pub max_speed: Option<f32>,
     pub has_kudoed: Option<bool>,
     pub hide_from_home: Option<bool>,
     pub gear_id: Option<String>,
-    pub kilojoules: Option<f32>,    // rides only
-    pub average_watts: Option<f32>, // rides only
+    pub kilojoules: Option<f32>,
+    pub average_watts: Option<f32>,
     pub device_watts: Option<bool>,
-    pub max_watts: Option<i32>,              // rides with power meter
-    pub weighted_average_watts: Option<i32>, // rides with power meter
+    pub max_watts: Option<i32>,
+    pub weighted_average_watts: Option<i32>,
 }
 
-/// Summary representation of an athlete.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SummaryAthlete {
     pub id: Option<i64>,
-    pub resource_state: Option<i32>, // 1 = meta, 2 = summary, 3 = detail
+    pub resource_state: Option<i32>,
     pub firstname: Option<String>,
     pub lastname: Option<String>,
-    pub profile_medium: Option<String>, // 62x62 px
-    pub profile: Option<String>,        // 124x124 px
+    pub profile_medium: Option<String>,
+    pub profile: Option<String>,
     pub city: Option<String>,
     pub state: Option<String>,
     pub country: Option<String>,
-    pub sex: Option<String>, // "M" or "F"
+    pub sex: Option<String>,
     #[deprecated(note = "Use summit instead")]
     pub premium: Option<bool>,
     pub summit: Option<bool>,
@@ -856,17 +753,16 @@ pub struct SummaryAthlete {
     pub updated_at: Option<DateTime<Utc>>,
 }
 
-/// Summary representation of a club.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SummaryClub {
     pub id: Option<i64>,
-    pub resource_state: Option<i32>, // 1 = meta, 2 = summary, 3 = detail
+    pub resource_state: Option<i32>,
     pub name: Option<String>,
-    pub profile_medium: Option<String>,    // 60x60 px
-    pub cover_photo: Option<String>,       // ~1185x580 px
-    pub cover_photo_small: Option<String>, // ~360x176 px
+    pub profile_medium: Option<String>,
+    pub cover_photo: Option<String>,
+    pub cover_photo_small: Option<String>,
     #[deprecated(note = "Use activity_types instead")]
-    pub sport_type: Option<String>, // cycling, running, triathlon, other
+    pub sport_type: Option<String>,
     pub activity_types: Option<Vec<ActivityType>>,
     pub city: Option<String>,
     pub state: Option<String>,
@@ -875,36 +771,32 @@ pub struct SummaryClub {
     pub member_count: Option<i32>,
     pub featured: Option<bool>,
     pub verified: Option<bool>,
-    pub url: Option<String>, // vanity URL
+    pub url: Option<String>,
 }
 
-/// Temperature stream (Celsius degrees).
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct TemperatureStream {
     pub original_size: Option<i32>,
-    pub resolution: Option<String>,  // "low", "medium", "high"
-    pub series_type: Option<String>, // "distance", "time"
-    pub data: Option<Vec<i32>>,      // Celsius
+    pub resolution: Option<String>,
+    pub series_type: Option<String>,
+    pub data: Option<Vec<i32>>,
 }
 
-/// Time stream (seconds).
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct TimeStream {
     pub original_size: Option<i32>,
-    pub resolution: Option<String>,  // "low", "medium", "high"
-    pub series_type: Option<String>, // "distance", "time"
-    pub data: Option<Vec<i32>>,      // seconds
+    pub resolution: Option<String>,
+    pub series_type: Option<String>,
+    pub data: Option<Vec<i32>>,
 }
 
-/// Represents the time spent in a given zone.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct TimedZoneRange {
     pub min: Option<i32>,
     pub max: Option<i32>,
-    pub time: Option<i32>, // seconds
+    pub time: Option<i32>,
 }
 
-/// A detailed representation of an activity.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DetailedActivity {
     pub id: Option<i64>,
@@ -912,9 +804,9 @@ pub struct DetailedActivity {
     pub upload_id: Option<i64>,
     pub athlete: Option<MetaAthlete>,
     pub name: Option<String>,
-    pub distance: Option<f32>,     // meters
-    pub moving_time: Option<i32>,  // seconds
-    pub elapsed_time: Option<i32>, // seconds
+    pub distance: Option<f32>,
+    pub moving_time: Option<i32>,
+    pub elapsed_time: Option<i32>,
     pub total_elevation_gain: Option<f32>,
     pub elev_high: Option<f32>,
     pub elev_low: Option<f32>,
@@ -964,19 +856,18 @@ pub struct DetailedActivity {
     pub best_efforts: Option<Vec<DetailedSegmentEffort>>,
 }
 
-/// Detailed representation of an athlete.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DetailedAthlete {
     pub id: Option<i64>,
-    pub resource_state: Option<i32>, // 1 = meta, 2 = summary, 3 = detail
+    pub resource_state: Option<i32>,
     pub firstname: Option<String>,
     pub lastname: Option<String>,
-    pub profile_medium: Option<String>, // 62x62 px
-    pub profile: Option<String>,        // 124x124 px
+    pub profile_medium: Option<String>,
+    pub profile: Option<String>,
     pub city: Option<String>,
     pub state: Option<String>,
     pub country: Option<String>,
-    pub sex: Option<String>, // "M" or "F"
+    pub sex: Option<String>,
     #[deprecated(note = "Use summit instead")]
     pub premium: Option<bool>,
     pub summit: Option<bool>,
@@ -984,7 +875,7 @@ pub struct DetailedAthlete {
     pub updated_at: Option<DateTime<Utc>>,
     pub follower_count: Option<i32>,
     pub friend_count: Option<i32>,
-    pub measurement_preference: Option<String>, // "feet" or "meters"
+    pub measurement_preference: Option<String>,
     pub ftp: Option<i32>,
     pub weight: Option<f32>,
     pub clubs: Option<Vec<SummaryClub>>,
@@ -992,17 +883,16 @@ pub struct DetailedAthlete {
     pub shoes: Option<Vec<SummaryGear>>,
 }
 
-/// Detailed representation of a club.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DetailedClub {
     pub id: Option<i64>,
-    pub resource_state: Option<i32>, // 1 = meta, 2 = summary, 3 = detail
+    pub resource_state: Option<i32>,
     pub name: Option<String>,
-    pub profile_medium: Option<String>,    // 60x60 px
-    pub cover_photo: Option<String>,       // ~1185x580 px
-    pub cover_photo_small: Option<String>, // ~360x176 px
+    pub profile_medium: Option<String>,
+    pub cover_photo: Option<String>,
+    pub cover_photo_small: Option<String>,
     #[deprecated(note = "Use activity_types instead")]
-    pub sport_type: Option<String>, // cycling, running, triathlon, other
+    pub sport_type: Option<String>,
     pub activity_types: Option<Vec<ActivityType>>,
     pub city: Option<String>,
     pub state: Option<String>,
@@ -1011,8 +901,8 @@ pub struct DetailedClub {
     pub member_count: Option<i32>,
     pub featured: Option<bool>,
     pub verified: Option<bool>,
-    pub url: Option<String>,        // vanity URL
-    pub membership: Option<String>, // "member" or "pending"
+    pub url: Option<String>,
+    pub membership: Option<String>,
     pub admin: Option<bool>,
     pub owner: Option<bool>,
     pub following_count: Option<i32>,

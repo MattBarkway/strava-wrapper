@@ -12,48 +12,6 @@ use crate::filters::segment_efforts::{GetSegmentEffort, ListSegmentEfforts};
 use crate::filters::segments::{ExploreSegments, GetSegment, ListStarredSegments};
 use crate::filters::stats::GetAthleteStats;
 use crate::query::Endpoint;
-// TODO: implement all these...
-
-// API
-//   Activities
-//     - get
-//     - list
-//     Kudos
-//       - list
-//     Comments
-//       - list
-//     Laps
-//       - list
-//     Zones
-//       - list
-//   Athletes
-//     - get
-//     - zones
-//     - stats
-//     - update
-//   Clubs
-//     - get
-//     - activities
-//     - admins
-//     - members
-//     - list (for current user)
-//   Gear
-//     - get
-//   Routes
-//     - export (GPX|TCX)
-//     - get
-//     - list
-//   Segments
-//     Efforts
-//       - get
-//       - list
-//     - explore
-//     - starred
-//     - get
-//     - star
-//  maybes:
-//  Uploads
-//  Streams
 
 pub struct ActivitiesEndpoint {
     url: String,
@@ -183,8 +141,6 @@ impl GearEndpoint {
             url: url.into(),
             token: token.into(),
         }
-        // TODO should add path params and query params to init, so we can just call .gear().id(123).send()
-        //  same for .athlete() etc., update trait to make path_params + query optional
     }
     pub fn get(&self) -> GetGear {
         GetGear::new(&self.url, &self.token, "v3/gear/{id}")

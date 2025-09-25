@@ -1,6 +1,8 @@
 use serde::{Deserialize, Serialize};
 
 const AUTH_URL: &str = "https://www.strava.com/oauth/token";
+
+// TODO better error handling here
 pub async fn get_token(
     client_id: u32,
     client_secret: &str,
@@ -19,7 +21,6 @@ pub async fn get_token(
         .await?;
 
     if !response.status().is_success() {
-        // you could map this into your own Error type
         panic!("Request failed: {}", response.status());
     }
 
