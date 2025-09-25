@@ -1,2 +1,3 @@
 [workspace]
 members = ["strava-wrapper", "strava-wrapper-macros", "integration-tests"]
+resolver = "2"
