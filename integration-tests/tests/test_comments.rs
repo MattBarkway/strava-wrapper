@@ -31,14 +31,7 @@ mod test {
 
         let api = StravaAPI::new(&server.base_url(), "foo");
 
-        let result = api
-            .activities()
-            .comments()
-            .get()
-            .id(123)
-            .send()
-            .await
-            .unwrap();
+        let result = api.activities().comments().id(123).send().await.unwrap();
 
         assert_eq!(result, expected);
 

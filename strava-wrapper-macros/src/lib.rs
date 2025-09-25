@@ -28,6 +28,16 @@ pub fn derive_endpoint(input: TokenStream) -> TokenStream {
 
     let expanded = quote! {
         impl Endpoint for #name {
+            fn new(url: impl Into<String>, token: impl Into<String>, path: impl Into<String>) -> Self {
+                Self {
+                    url: url.into(),
+                    token: token.into(),
+                    path: path.into(),
+                    query: Vec::new(),
+                    path_params: Vec::new(),
+                }
+            }
+
             fn endpoint(&self) -> String {
                 format!("{}/{}", self.url, self.path)
             }
@@ -87,6 +97,23 @@ pub fn derive_page(input: TokenStream) -> TokenStream {
     expanded.into()
 }
 
+#[proc_macro_derive(PerPage)]
+pub fn derive_per_page(input: TokenStream) -> TokenStream {
+    let input = parse_macro_input!(input as DeriveInput);
+    let name = input.ident;
+
+    let expanded = quote! {
+        impl PerPage for #name {
+            fn per_page(mut self, size: u32) -> Self {
+                self.query.push(("per_page".to_string(), size.to_string()));
+                self
+            }
+        }
+    };
+
+    expanded.into()
+}
+
 #[proc_macro_derive(PageSize)]
 pub fn derive_page_size(input: TokenStream) -> TokenStream {
     let input = parse_macro_input!(input as DeriveInput);
@@ -95,7 +122,7 @@ pub fn derive_page_size(input: TokenStream) -> TokenStream {
     let expanded = quote! {
         impl PageSize for #name {
             fn page_size(mut self, size: u32) -> Self {
-                self.query.push(("per_page".to_string(), size.to_string()));
+                self.query.push(("page_size".to_string(), size.to_string()));
                 self
             }
         }
@@ -114,6 +141,24 @@ pub fn derive_after_cursor(input: TokenStream) -> TokenStream {
             fn after_cursor(mut self, cursor: String) -> Self {
                 self.query
                     .push(("after_cursor".to_string(), cursor.to_string()));
+                self
+            }
+        }
+    };
+
+    expanded.into()
+}
+
+#[proc_macro_derive(IncludeAllEfforts)]
+pub fn derive_include_all_efforts(input: TokenStream) -> TokenStream {
+    let input = parse_macro_input!(input as DeriveInput);
+    let name = input.ident;
+
+    let expanded = quote! {
+        impl IncludeAllEfforts for #name {
+            fn include_all_efforts(mut self, should_include: bool) -> Self {
+                self.query
+                    .push(("include_all_efforts".to_string(), should_include.to_string()));
                 self
             }
         }
