@@ -2,7 +2,7 @@ mod test {
     use httpmock::MockServer;
     use serde_json::json;
     use strava_wrapper::api::StravaAPI;
-    use strava_wrapper::models::{Activity, Comment};
+    use strava_wrapper::models::Activity;
     use strava_wrapper::query::{IncludeAllEfforts, Sendable, ID};
 
     #[tokio::test]

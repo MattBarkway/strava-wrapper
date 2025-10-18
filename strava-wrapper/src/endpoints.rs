@@ -1,6 +1,6 @@
 use crate::filters::activities::GetActivity;
 use crate::filters::activity_zones::ListActivityZones;
-use crate::filters::athlete::{GetAthlete, ListAthleteClubs};
+use crate::filters::athlete::{GetAthlete, ListAthleteActivities, ListAthleteClubs};
 use crate::filters::athlete_zones::GetAthleteZones;
 use crate::filters::clubs::{GetClub, GetClubMembers, ListClubActivities, ListClubAdmins};
 use crate::filters::comments::ListActivityComments;
@@ -74,6 +74,10 @@ impl AthleteEndpoint {
 
     pub fn clubs(&self) -> ListAthleteClubs {
         ListAthleteClubs::new(&self.url, &self.token, "v3/athlete/clubs")
+    }
+
+    pub fn activities(&self) -> ListAthleteActivities {
+        ListAthleteActivities::new(&self.url, &self.token, "v3/athlete/activities")
     }
     pub fn update(&self) -> () {
         todo!()

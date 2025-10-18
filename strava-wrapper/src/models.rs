@@ -4,10 +4,10 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ActivityTotal {
     pub count: Option<i32>,
-    pub distance: Option<f32>,
-    pub moving_time: Option<i32>,
-    pub elapsed_time: Option<i32>,
-    pub elevation_gain: Option<f32>,
+    pub distance: Option<f64>,
+    pub moving_time: Option<f64>,
+    pub elapsed_time: Option<f64>,
+    pub elevation_gain: Option<f64>,
     pub achievement_count: Option<i32>,
 }
 
@@ -164,7 +164,7 @@ pub struct Activity {
     pub from_accepted_tag: Option<bool>,
     pub average_speed: f64,
     pub max_speed: f64,
-    pub device_watts: bool,
+    pub device_watts: Option<bool>,
     pub has_heartrate: bool,
     pub pr_count: i32,
     pub total_photo_count: i32,

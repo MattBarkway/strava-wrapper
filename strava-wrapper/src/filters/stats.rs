@@ -1,4 +1,4 @@
-use crate::models::User;
+use crate::models::ActivityStats;
 use crate::query::{
     get_with_query_and_path, Endpoint, ErrorWrapper, PathQuery, Query, Sendable, ID,
 };
@@ -28,8 +28,8 @@ impl GetAthleteStats {
 }
 
 #[async_trait]
-impl Sendable<Vec<User>> for GetAthleteStats {
-    async fn send(mut self) -> Result<Vec<User>, ErrorWrapper> {
+impl Sendable<ActivityStats> for GetAthleteStats {
+    async fn send(mut self) -> Result<ActivityStats, ErrorWrapper> {
         get_with_query_and_path(self.clone(), &self.token).await
     }
 }

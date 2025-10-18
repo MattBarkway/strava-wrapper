@@ -87,7 +87,7 @@ pub fn derive_page(input: TokenStream) -> TokenStream {
     let expanded = quote! {
         impl Page for #name {
             fn page(mut self, number: u32) -> Self {
-                self.path_params
+                self.query
                     .push(("page".to_string(), number.to_string()));
                 self
             }
@@ -106,6 +106,40 @@ pub fn derive_per_page(input: TokenStream) -> TokenStream {
         impl PerPage for #name {
             fn per_page(mut self, size: u32) -> Self {
                 self.query.push(("per_page".to_string(), size.to_string()));
+                self
+            }
+        }
+    };
+
+    expanded.into()
+}
+
+#[proc_macro_derive(Before)]
+pub fn derive_before(input: TokenStream) -> TokenStream {
+    let input = parse_macro_input!(input as DeriveInput);
+    let name = input.ident;
+
+    let expanded = quote! {
+        impl Before for #name {
+            fn before(mut self, before: u64) -> Self {
+                self.query.push(("before".to_string(), before.to_string()));
+                self
+            }
+        }
+    };
+
+    expanded.into()
+}
+
+#[proc_macro_derive(After)]
+pub fn derive_after(input: TokenStream) -> TokenStream {
+    let input = parse_macro_input!(input as DeriveInput);
+    let name = input.ident;
+
+    let expanded = quote! {
+        impl After for #name {
+            fn after(mut self, after: u64) -> Self {
+                self.query.push(("after".to_string(), after.to_string()));
                 self
             }
         }
