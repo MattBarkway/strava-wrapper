@@ -1,3 +1,4 @@
 [workspace]
 members = ["strava-wrapper", "strava-wrapper-macros", "integration-tests"]
+exclude = ["integration-tests"]
 resolver = "2"
