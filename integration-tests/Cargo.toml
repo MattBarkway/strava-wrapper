@@ -2,6 +2,7 @@
 name = "integration-tests"
 version = "0.0.1"
 edition = "2021"
+publish = false
 
 [dependencies]
 strava-wrapper = { path = "../strava-wrapper" }
