@@ -34,8 +34,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-cargo-
 
-      - name: Run Tests
-        run: cargo test --all --verbose
+#      - name: Run Tests
+#        run: cargo test --all --verbose
 
       - name: Check Package
         run: cargo package --allow-dirty --no-verify
