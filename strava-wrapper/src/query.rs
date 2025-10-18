@@ -121,6 +121,14 @@ pub trait PageSize {
     fn page_size(self, number: u32) -> Self;
 }
 
+pub trait Before {
+    fn before(self, before: u64) -> Self;
+}
+
+pub trait After {
+    fn after(self, after: u64) -> Self;
+}
+
 pub trait ID {
     fn id(self, id: u64) -> Self;
 }
