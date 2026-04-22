@@ -8,6 +8,7 @@ use std::collections::HashMap;
 use strava_wrapper_macros::{AfterCursor, Endpoint, PageSize, PathQuery, Query, ID};
 
 #[derive(Debug, Clone, Endpoint, Query, PathQuery, ID, PageSize, AfterCursor)]
+#[must_use = "this request is not executed until you call .send().await"]
 pub struct ListActivityComments {
     url: String,
     token: String,

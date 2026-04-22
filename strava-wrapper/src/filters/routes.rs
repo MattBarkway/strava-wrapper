@@ -8,6 +8,7 @@ use std::collections::HashMap;
 use strava_wrapper_macros::{Endpoint, Page, PathQuery, PerPage, Query, ID};
 
 #[derive(Debug, Clone, Endpoint, Query, PathQuery, ID)]
+#[must_use = "this request is not executed until you call .send().await"]
 pub struct GetRoute {
     url: String,
     token: String,
@@ -25,6 +26,7 @@ impl Sendable<Route> for GetRoute {
 }
 
 #[derive(Debug, Clone, Endpoint, Query, PathQuery, ID, Page, PerPage)]
+#[must_use = "this request is not executed until you call .send().await"]
 pub struct ListAthleteRoutes {
     url: String,
     token: String,
@@ -42,6 +44,7 @@ impl Sendable<Vec<Route>> for ListAthleteRoutes {
 }
 
 #[derive(Debug, Clone, Endpoint, Query, PathQuery, ID)]
+#[must_use = "this request is not executed until you call .send().await"]
 pub struct ExportTCXRoute {
     url: String,
     token: String,
@@ -59,6 +62,7 @@ impl Sendable<String> for ExportTCXRoute {
 }
 
 #[derive(Debug, Clone, Endpoint, Query, PathQuery, ID)]
+#[must_use = "this request is not executed until you call .send().await"]
 pub struct ExportGPXRoute {
     url: String,
     token: String,

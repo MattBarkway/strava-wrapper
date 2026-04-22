@@ -7,6 +7,7 @@ use std::collections::HashMap;
 use strava_wrapper_macros::{Endpoint, Page, PathQuery, PerPage, Query, ID};
 
 #[derive(Debug, Clone, Endpoint, Query, PathQuery, ID, Page, PerPage)]
+#[must_use = "this request is not executed until you call .send().await"]
 pub struct ListClubActivities {
     url: String,
     token: String,
@@ -24,6 +25,7 @@ impl Sendable<Vec<ClubActivity>> for ListClubActivities {
 }
 
 #[derive(Debug, Clone, Endpoint, Query, PathQuery, ID, Page, PerPage)]
+#[must_use = "this request is not executed until you call .send().await"]
 pub struct ListClubAdmins {
     url: String,
     token: String,
@@ -41,6 +43,7 @@ impl Sendable<Vec<SummaryAthlete>> for ListClubAdmins {
 }
 
 #[derive(Debug, Clone, Endpoint, Query, PathQuery, ID)]
+#[must_use = "this request is not executed until you call .send().await"]
 pub struct GetClub {
     url: String,
     token: String,
@@ -58,6 +61,7 @@ impl Sendable<DetailedClub> for GetClub {
 }
 
 #[derive(Debug, Clone, Endpoint, Query, PathQuery, ID, Page, PerPage)]
+#[must_use = "this request is not executed until you call .send().await"]
 pub struct GetClubMembers {
     url: String,
     token: String,

@@ -8,6 +8,7 @@ use std::collections::HashMap;
 use strava_wrapper_macros::{Endpoint, PathQuery, Query, ID};
 
 #[derive(Debug, Clone, Endpoint, Query, PathQuery)]
+#[must_use = "this request is not executed until you call .send().await"]
 pub struct ExploreSegments {
     url: String,
     token: String,
@@ -53,6 +54,7 @@ impl Sendable<ExplorerResponse> for ExploreSegments {
 }
 
 #[derive(Debug, Clone, Endpoint, Query, PathQuery, ID)]
+#[must_use = "this request is not executed until you call .send().await"]
 pub struct ListStarredSegments {
     url: String,
     token: String,
@@ -70,6 +72,7 @@ impl Sendable<Vec<SummarySegment>> for ListStarredSegments {
 }
 
 #[derive(Debug, Clone, Endpoint, Query, PathQuery, ID)]
+#[must_use = "this request is not executed until you call .send().await"]
 pub struct GetSegment {
     url: String,
     token: String,
@@ -93,6 +96,7 @@ struct StarSegmentBody {
 
 /// Builder for `PUT /segments/{id}/starred`. `.send()` stars or unstars
 /// the segment based on the `starred` flag.
+#[must_use = "this request is not executed until you call .send().await"]
 pub struct StarSegment {
     url: String,
     token: String,

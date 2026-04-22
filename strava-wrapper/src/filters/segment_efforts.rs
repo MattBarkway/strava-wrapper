@@ -8,6 +8,7 @@ use std::collections::HashMap;
 use strava_wrapper_macros::{After, Before, Endpoint, Page, PathQuery, PerPage, Query, ID};
 
 #[derive(Debug, Clone, Endpoint, Query, PathQuery, ID)]
+#[must_use = "this request is not executed until you call .send().await"]
 pub struct GetSegmentEffort {
     url: String,
     token: String,
@@ -25,6 +26,7 @@ impl Sendable<DetailedSegmentEffort> for GetSegmentEffort {
 }
 
 #[derive(Debug, Clone, Endpoint, Query, PathQuery, Before, After, Page, PerPage)]
+#[must_use = "this request is not executed until you call .send().await"]
 pub struct ListSegmentEfforts {
     url: String,
     token: String,

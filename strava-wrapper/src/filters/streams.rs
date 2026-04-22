@@ -52,6 +52,7 @@ fn push_keys(query: &mut Vec<(String, String)>, keys: &[StreamKey]) {
 }
 
 #[derive(Debug, Clone, Endpoint, Query, PathQuery, ID)]
+#[must_use = "this request is not executed until you call .send().await"]
 pub struct GetActivityStreams {
     url: String,
     token: String,
@@ -77,6 +78,7 @@ impl Sendable<StreamSet> for GetActivityStreams {
 }
 
 #[derive(Debug, Clone, Endpoint, Query, PathQuery, ID)]
+#[must_use = "this request is not executed until you call .send().await"]
 pub struct GetRouteStreams {
     url: String,
     token: String,
@@ -94,6 +96,7 @@ impl Sendable<StreamSet> for GetRouteStreams {
 }
 
 #[derive(Debug, Clone, Endpoint, Query, PathQuery, ID)]
+#[must_use = "this request is not executed until you call .send().await"]
 pub struct GetSegmentEffortStreams {
     url: String,
     token: String,
@@ -118,6 +121,7 @@ impl Sendable<StreamSet> for GetSegmentEffortStreams {
 }
 
 #[derive(Debug, Clone, Endpoint, Query, PathQuery, ID)]
+#[must_use = "this request is not executed until you call .send().await"]
 pub struct GetSegmentStreams {
     url: String,
     token: String,

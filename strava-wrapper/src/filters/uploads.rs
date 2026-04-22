@@ -35,6 +35,7 @@ impl UploadDataType {
 /// Builder for `POST /uploads`. Submits an activity file and returns an
 /// [`Upload`] record. The `id` on the response can then be polled via
 /// [`GetUpload`] to check processing progress.
+#[must_use = "this request is not executed until you call .send().await"]
 pub struct UploadActivity {
     url: String,
     token: String,
@@ -126,6 +127,7 @@ impl Sendable<Upload> for UploadActivity {
 }
 
 #[derive(Debug, Clone, Endpoint, Query, PathQuery, ID)]
+#[must_use = "this request is not executed until you call .send().await"]
 pub struct GetUpload {
     url: String,
     token: String,

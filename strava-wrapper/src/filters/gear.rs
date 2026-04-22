@@ -7,6 +7,7 @@ use std::collections::HashMap;
 use strava_wrapper_macros::{Endpoint, GearID, PathQuery, Query};
 
 #[derive(Debug, Clone, Endpoint, Query, PathQuery, GearID)]
+#[must_use = "this request is not executed until you call .send().await"]
 pub struct GetGear {
     url: String,
     token: String,

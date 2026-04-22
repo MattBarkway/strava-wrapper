@@ -7,6 +7,7 @@ use std::collections::HashMap;
 use strava_wrapper_macros::{Endpoint, Page, PathQuery, PerPage, Query, ID};
 
 #[derive(Debug, Clone, Endpoint, Query, PathQuery, ID, Page, PerPage)]
+#[must_use = "this request is not executed until you call .send().await"]
 pub struct ListActivityKudoers {
     url: String,
     token: String,
