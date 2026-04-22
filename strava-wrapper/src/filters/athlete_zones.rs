@@ -5,6 +5,7 @@ use std::collections::HashMap;
 use strava_wrapper_macros::{Endpoint, PathQuery, Query};
 
 #[derive(Debug, Clone, Endpoint, Query, PathQuery)]
+#[must_use = "this request is not executed until you call .send().await"]
 pub struct GetAthleteZones {
     url: String,
     token: String,
@@ -14,8 +15,9 @@ pub struct GetAthleteZones {
 }
 
 #[async_trait]
-impl Sendable<Vec<Zones>> for GetAthleteZones {
-    async fn send(mut self) -> Result<Vec<Zones>, ErrorWrapper> {
-        get_with_query_and_path(self.clone(), &self.token).await
+impl Sendable<Zones> for GetAthleteZones {
+    async fn send(self) -> Result<Zones, ErrorWrapper> {
+        let token = self.token.clone();
+        get_with_query_and_path(self, &token).await
     }
 }

@@ -1,4 +1,4 @@
-use crate::models::Lap;
+use crate::models::{ClubActivity, ClubAthlete, DetailedClub, SummaryAthlete};
 use crate::query::{
     get_with_query_and_path, Endpoint, ErrorWrapper, Page, PathQuery, PerPage, Query, Sendable, ID,
 };
@@ -14,10 +14,12 @@ pub struct ListClubActivities {
     query: Vec<(String, String)>,
     path_params: Vec<(String, String)>,
 }
+
 #[async_trait]
-impl Sendable<Vec<Lap>> for ListClubActivities {
-    async fn send(mut self) -> Result<Vec<Lap>, ErrorWrapper> {
-        get_with_query_and_path(self.clone(), &self.token).await
+impl Sendable<Vec<ClubActivity>> for ListClubActivities {
+    async fn send(self) -> Result<Vec<ClubActivity>, ErrorWrapper> {
+        let token = self.token.clone();
+        get_with_query_and_path(self, &token).await
     }
 }
 
@@ -31,9 +33,10 @@ pub struct ListClubAdmins {
 }
 
 #[async_trait]
-impl Sendable<Vec<Lap>> for ListClubAdmins {
-    async fn send(mut self) -> Result<Vec<Lap>, ErrorWrapper> {
-        get_with_query_and_path(self.clone(), &self.token).await
+impl Sendable<Vec<SummaryAthlete>> for ListClubAdmins {
+    async fn send(self) -> Result<Vec<SummaryAthlete>, ErrorWrapper> {
+        let token = self.token.clone();
+        get_with_query_and_path(self, &token).await
     }
 }
 
@@ -47,9 +50,10 @@ pub struct GetClub {
 }
 
 #[async_trait]
-impl Sendable<Vec<Lap>> for GetClub {
-    async fn send(mut self) -> Result<Vec<Lap>, ErrorWrapper> {
-        get_with_query_and_path(self.clone(), &self.token).await
+impl Sendable<DetailedClub> for GetClub {
+    async fn send(self) -> Result<DetailedClub, ErrorWrapper> {
+        let token = self.token.clone();
+        get_with_query_and_path(self, &token).await
     }
 }
 
@@ -63,8 +67,9 @@ pub struct GetClubMembers {
 }
 
 #[async_trait]
-impl Sendable<Vec<Lap>> for GetClubMembers {
-    async fn send(mut self) -> Result<Vec<Lap>, ErrorWrapper> {
-        get_with_query_and_path(self.clone(), &self.token).await
+impl Sendable<Vec<ClubAthlete>> for GetClubMembers {
+    async fn send(self) -> Result<Vec<ClubAthlete>, ErrorWrapper> {
+        let token = self.token.clone();
+        get_with_query_and_path(self, &token).await
     }
 }

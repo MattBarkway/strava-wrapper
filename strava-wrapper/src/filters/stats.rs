@@ -15,21 +15,10 @@ pub struct GetAthleteStats {
     path_params: Vec<(String, String)>,
 }
 
-impl GetAthleteStats {
-    pub fn new(url: impl Into<String>, token: impl Into<String>, path: impl Into<String>) -> Self {
-        Self {
-            url: url.into(),
-            token: token.into(),
-            path: path.into(),
-            query: Vec::new(),
-            path_params: Vec::new(),
-        }
-    }
-}
-
 #[async_trait]
 impl Sendable<ActivityStats> for GetAthleteStats {
-    async fn send(mut self) -> Result<ActivityStats, ErrorWrapper> {
-        get_with_query_and_path(self.clone(), &self.token).await
+    async fn send(self) -> Result<ActivityStats, ErrorWrapper> {
+        let token = self.token.clone();
+        get_with_query_and_path(self, &token).await
     }
 }

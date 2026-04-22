@@ -1,4 +1,4 @@
-use crate::models::User;
+use crate::models::SummaryAthlete;
 use crate::query::{
     get_with_query_and_path, Endpoint, ErrorWrapper, Page, PathQuery, PerPage, Query, Sendable, ID,
 };
@@ -16,8 +16,9 @@ pub struct ListActivityKudoers {
 }
 
 #[async_trait]
-impl Sendable<Vec<User>> for ListActivityKudoers {
-    async fn send(mut self) -> Result<Vec<User>, ErrorWrapper> {
-        get_with_query_and_path(self.clone(), &self.token).await
+impl Sendable<Vec<SummaryAthlete>> for ListActivityKudoers {
+    async fn send(self) -> Result<Vec<SummaryAthlete>, ErrorWrapper> {
+        let token = self.token.clone();
+        get_with_query_and_path(self, &token).await
     }
 }

@@ -11,3 +11,5 @@ pub mod routes;
 pub mod segment_efforts;
 pub mod segments;
 pub mod stats;
+pub mod streams;
+pub mod uploads;

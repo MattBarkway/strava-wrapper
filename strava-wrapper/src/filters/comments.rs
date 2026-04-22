@@ -18,7 +18,8 @@ pub struct ListActivityComments {
 
 #[async_trait]
 impl Sendable<Vec<Comment>> for ListActivityComments {
-    async fn send(mut self) -> Result<Vec<Comment>, ErrorWrapper> {
-        get_with_query_and_path(self.clone(), &self.token).await
+    async fn send(self) -> Result<Vec<Comment>, ErrorWrapper> {
+        let token = self.token.clone();
+        get_with_query_and_path(self, &token).await
     }
 }
