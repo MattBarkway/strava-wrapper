@@ -2,9 +2,11 @@
 name = "integration-tests"
 version = "0.0.1"
 edition = "2021"
+publish = false
 
 [dependencies]
 strava-wrapper = { path = "../strava-wrapper" }
-tokio = "1.47.1"
-httpmock = "0.8.0-alpha.1"
-serde_json = "1.0.132"
+tokio = { workspace = true }
+httpmock = { workspace = true }
+serde_json = { workspace = true }
+reqwest = { workspace = true }

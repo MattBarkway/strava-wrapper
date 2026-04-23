@@ -1,12 +1,13 @@
-use crate::models::SimpleAthlete;
+use crate::models::DetailedGear;
 use crate::query::{
-    get_with_query_and_path, Endpoint, ErrorWrapper, PathQuery, Query, Sendable, ID,
+    get_with_query_and_path, Endpoint, ErrorWrapper, GearID, PathQuery, Query, Sendable,
 };
 use async_trait::async_trait;
 use std::collections::HashMap;
-use strava_wrapper_macros::{Endpoint, PathQuery, Query, ID};
+use strava_wrapper_macros::{Endpoint, GearID, PathQuery, Query};
 
-#[derive(Debug, Clone, Endpoint, Query, PathQuery, ID)]
+#[derive(Debug, Clone, Endpoint, Query, PathQuery, GearID)]
+#[must_use = "this request is not executed until you call .send().await"]
 pub struct GetGear {
     url: String,
     token: String,
@@ -16,8 +17,9 @@ pub struct GetGear {
 }
 
 #[async_trait]
-impl Sendable<SimpleAthlete> for GetGear {
-    async fn send(mut self) -> Result<SimpleAthlete, ErrorWrapper> {
-        get_with_query_and_path(self.clone(), &self.token).await
+impl Sendable<DetailedGear> for GetGear {
+    async fn send(self) -> Result<DetailedGear, ErrorWrapper> {
+        let token = self.token.clone();
+        get_with_query_and_path(self, &token).await
     }
 }

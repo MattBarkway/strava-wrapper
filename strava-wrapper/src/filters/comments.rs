@@ -8,6 +8,7 @@ use std::collections::HashMap;
 use strava_wrapper_macros::{AfterCursor, Endpoint, PageSize, PathQuery, Query, ID};
 
 #[derive(Debug, Clone, Endpoint, Query, PathQuery, ID, PageSize, AfterCursor)]
+#[must_use = "this request is not executed until you call .send().await"]
 pub struct ListActivityComments {
     url: String,
     token: String,
@@ -18,7 +19,8 @@ pub struct ListActivityComments {
 
 #[async_trait]
 impl Sendable<Vec<Comment>> for ListActivityComments {
-    async fn send(mut self) -> Result<Vec<Comment>, ErrorWrapper> {
-        get_with_query_and_path(self.clone(), &self.token).await
+    async fn send(self) -> Result<Vec<Comment>, ErrorWrapper> {
+        let token = self.token.clone();
+        get_with_query_and_path(self, &token).await
     }
 }

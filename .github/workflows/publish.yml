@@ -38,7 +38,7 @@ jobs:
         run: cargo test --all --verbose
 
       - name: Check Package
-        run: cargo package --allow-dirty --no-verify
+        run: cargo package -p strava-wrapper -p strava-wrapper-macros --allow-dirty --no-verify
 
       - name: Publish strava-wrapper-macros
         if: ${{ inputs.publish_macros }}

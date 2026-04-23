@@ -183,6 +183,23 @@ pub fn derive_after_cursor(input: TokenStream) -> TokenStream {
     expanded.into()
 }
 
+#[proc_macro_derive(GearID)]
+pub fn derive_gear_id(input: TokenStream) -> TokenStream {
+    let input = parse_macro_input!(input as DeriveInput);
+    let name = input.ident;
+
+    let expanded = quote! {
+        impl GearID for #name {
+            fn id(mut self, id: impl Into<String>) -> Self {
+                self.path_params.push(("id".to_string(), id.into()));
+                self
+            }
+        }
+    };
+
+    expanded.into()
+}
+
 #[proc_macro_derive(IncludeAllEfforts)]
 pub fn derive_include_all_efforts(input: TokenStream) -> TokenStream {
     let input = parse_macro_input!(input as DeriveInput);

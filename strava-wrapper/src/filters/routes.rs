@@ -1,12 +1,14 @@
-use crate::models::User;
+use crate::models::Route;
 use crate::query::{
-    get_with_query_and_path, Endpoint, ErrorWrapper, PathQuery, Query, Sendable, ID,
+    get_raw_with_query_and_path, get_with_query_and_path, Endpoint, ErrorWrapper, Page, PathQuery,
+    PerPage, Query, Sendable, ID,
 };
 use async_trait::async_trait;
 use std::collections::HashMap;
-use strava_wrapper_macros::{Endpoint, PathQuery, Query, ID};
+use strava_wrapper_macros::{Endpoint, Page, PathQuery, PerPage, Query, ID};
 
 #[derive(Debug, Clone, Endpoint, Query, PathQuery, ID)]
+#[must_use = "this request is not executed until you call .send().await"]
 pub struct GetRoute {
     url: String,
     token: String,
@@ -16,13 +18,15 @@ pub struct GetRoute {
 }
 
 #[async_trait]
-impl Sendable<Vec<User>> for GetRoute {
-    async fn send(mut self) -> Result<Vec<User>, ErrorWrapper> {
-        get_with_query_and_path(self.clone(), &self.token).await
+impl Sendable<Route> for GetRoute {
+    async fn send(self) -> Result<Route, ErrorWrapper> {
+        let token = self.token.clone();
+        get_with_query_and_path(self, &token).await
     }
 }
 
-#[derive(Debug, Clone, Endpoint, Query, PathQuery, ID)]
+#[derive(Debug, Clone, Endpoint, Query, PathQuery, ID, Page, PerPage)]
+#[must_use = "this request is not executed until you call .send().await"]
 pub struct ListAthleteRoutes {
     url: String,
     token: String,
@@ -32,13 +36,15 @@ pub struct ListAthleteRoutes {
 }
 
 #[async_trait]
-impl Sendable<Vec<User>> for ListAthleteRoutes {
-    async fn send(mut self) -> Result<Vec<User>, ErrorWrapper> {
-        get_with_query_and_path(self.clone(), &self.token).await
+impl Sendable<Vec<Route>> for ListAthleteRoutes {
+    async fn send(self) -> Result<Vec<Route>, ErrorWrapper> {
+        let token = self.token.clone();
+        get_with_query_and_path(self, &token).await
     }
 }
 
 #[derive(Debug, Clone, Endpoint, Query, PathQuery, ID)]
+#[must_use = "this request is not executed until you call .send().await"]
 pub struct ExportTCXRoute {
     url: String,
     token: String,
@@ -48,13 +54,15 @@ pub struct ExportTCXRoute {
 }
 
 #[async_trait]
-impl Sendable<Vec<User>> for ExportTCXRoute {
-    async fn send(mut self) -> Result<Vec<User>, ErrorWrapper> {
-        get_with_query_and_path(self.clone(), &self.token).await
+impl Sendable<String> for ExportTCXRoute {
+    async fn send(self) -> Result<String, ErrorWrapper> {
+        let token = self.token.clone();
+        get_raw_with_query_and_path(self, &token).await
     }
 }
 
 #[derive(Debug, Clone, Endpoint, Query, PathQuery, ID)]
+#[must_use = "this request is not executed until you call .send().await"]
 pub struct ExportGPXRoute {
     url: String,
     token: String,
@@ -64,8 +72,9 @@ pub struct ExportGPXRoute {
 }
 
 #[async_trait]
-impl Sendable<Vec<User>> for ExportGPXRoute {
-    async fn send(mut self) -> Result<Vec<User>, ErrorWrapper> {
-        get_with_query_and_path(self.clone(), &self.token).await
+impl Sendable<String> for ExportGPXRoute {
+    async fn send(self) -> Result<String, ErrorWrapper> {
+        let token = self.token.clone();
+        get_raw_with_query_and_path(self, &token).await
     }
 }

@@ -7,6 +7,7 @@ use std::collections::HashMap;
 use strava_wrapper_macros::{Endpoint, PathQuery, Query, ID};
 
 #[derive(Debug, Clone, Endpoint, Query, PathQuery, ID)]
+#[must_use = "this request is not executed until you call .send().await"]
 pub struct ListActivityLaps {
     url: String,
     token: String,
@@ -17,7 +18,8 @@ pub struct ListActivityLaps {
 
 #[async_trait]
 impl Sendable<Vec<Lap>> for ListActivityLaps {
-    async fn send(mut self) -> Result<Vec<Lap>, ErrorWrapper> {
-        get_with_query_and_path(self.clone(), &self.token).await
+    async fn send(self) -> Result<Vec<Lap>, ErrorWrapper> {
+        let token = self.token.clone();
+        get_with_query_and_path(self, &token).await
     }
 }

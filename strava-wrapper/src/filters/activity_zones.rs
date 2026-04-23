@@ -1,4 +1,4 @@
-use crate::models::Zones;
+use crate::models::ActivityZone;
 use crate::query::{
     get_with_query_and_path, Endpoint, ErrorWrapper, PathQuery, Query, Sendable, ID,
 };
@@ -7,6 +7,7 @@ use std::collections::HashMap;
 use strava_wrapper_macros::{Endpoint, PathQuery, Query, ID};
 
 #[derive(Debug, Clone, Endpoint, Query, PathQuery, ID)]
+#[must_use = "this request is not executed until you call .send().await"]
 pub struct ListActivityZones {
     url: String,
     token: String,
@@ -16,8 +17,9 @@ pub struct ListActivityZones {
 }
 
 #[async_trait]
-impl Sendable<Vec<Zones>> for ListActivityZones {
-    async fn send(mut self) -> Result<Vec<Zones>, ErrorWrapper> {
-        get_with_query_and_path(self.clone(), &self.token).await
+impl Sendable<Vec<ActivityZone>> for ListActivityZones {
+    async fn send(self) -> Result<Vec<ActivityZone>, ErrorWrapper> {
+        let token = self.token.clone();
+        get_with_query_and_path(self, &token).await
     }
 }
